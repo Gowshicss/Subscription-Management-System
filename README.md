@@ -80,7 +80,7 @@ The **Brightloop Subscription Management System** solves these operational chall
   - `allowPause`: Controls whether customers can pause/resume active recurring subscriptions.
   - `allowRenewal`: Governs manual and automatic cycle renewal workflows.
   - `allowEarlyClosure`: Enforces policy on premature contract terminations.
-- Configurable base recurring pricing (`₹`) and operational grace period controls.
+- Configurable base recurring pricing (₹) and operational grace period controls.
 
 ### 5. Quotation Management
 - Multi-item quotation builder linking products, specific variants, custom quantities, and negotiated unit prices.
