@@ -44,7 +44,7 @@ export const CustomerDashboard: React.FC = () => {
         />
         <MetricCard
           title="Outstanding Balance"
-          value={`$${Number(metrics.totalOutstanding || 0).toFixed(2)}`}
+          value={`₹${Number(metrics.totalOutstanding || 0).toFixed(2)}`}
           subtitle="Total due across invoices"
           icon={Receipt}
           badge={metrics.totalOutstanding > 0 ? 'Due' : 'All Paid'}
@@ -95,7 +95,7 @@ export const CustomerDashboard: React.FC = () => {
                   <td className="text-xs font-medium">{sub.plan?.name}</td>
                   <td className="text-xs text-muted uppercase">{sub.plan?.billingFrequency}</td>
                   <td className="text-xs font-mono">{new Date(sub.nextBillingDate).toLocaleDateString()}</td>
-                  <td className="text-xs font-bold">${Number(sub.totalAmount).toFixed(2)}</td>
+                  <td className="text-xs font-bold">₹{Number(sub.totalAmount).toFixed(2)}</td>
                   <td>
                     <StatusBadge status={sub.status} size="sm" />
                   </td>
@@ -137,7 +137,7 @@ export const CustomerDashboard: React.FC = () => {
                     Valid until {new Date(q.validUntil).toLocaleDateString()}
                   </span>
                   <span className="text-xs font-bold text-charcoal mt-1 block">
-                    Total: ${Number(q.totalAmount).toFixed(2)}
+                    Total: ₹{Number(q.totalAmount).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex flex-col items-end gap-2">
@@ -181,13 +181,13 @@ export const CustomerDashboard: React.FC = () => {
                     Due: {new Date(inv.dueDate).toLocaleDateString()}
                   </span>
                   <span className="text-xs font-bold text-charcoal mt-1 block">
-                    Amount: ${Number(inv.totalAmount).toFixed(2)}
+                    Amount: ₹{Number(inv.totalAmount).toFixed(2)}
                   </span>
                 </div>
                 <div className="text-right">
                   <StatusBadge status={inv.status} size="sm" />
                   <span className="text-xs font-semibold text-red-600 block mt-1">
-                    Balance: ${Number(inv.balanceDue).toFixed(2)}
+                    Balance: ₹{Number(inv.balanceDue).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -201,3 +201,4 @@ export const CustomerDashboard: React.FC = () => {
     </div>
   );
 };
+

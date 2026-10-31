@@ -29,3 +29,4 @@ COPY --from=builder /app/dist ./dist
 EXPOSE 5000
 
 CMD ["sh", "-c", "npx prisma db push && node dist/index.js"]
+

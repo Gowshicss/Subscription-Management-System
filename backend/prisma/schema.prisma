@@ -98,7 +98,7 @@ model Customer {
   country        String?
   postalCode     String?
   taxNumber      String?
-  currency       String         @default("USD")
+  currency       String         @default("INR")
   notes          String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
@@ -439,8 +439,8 @@ model AuditLog {
 model BusinessSettings {
   id             String   @id @default(uuid())
   companyName    String   @default("Brightloop Software")
-  currency       String   @default("USD")
-  currencySymbol String   @default("$")
+  currency       String   @default("INR")
+  currencySymbol String   @default("₹")
   taxNumber      String?  @default("US-BL-849204")
   contactEmail   String   @default("billing@brightloop.io")
   contactPhone   String   @default("+1 (555) 019-2834")
@@ -450,3 +450,4 @@ model BusinessSettings {
   subPrefix      String   @default("SUB")
   updatedAt      DateTime @updatedAt
 }
+

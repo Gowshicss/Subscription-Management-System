@@ -48,3 +48,4 @@
 | | View payment records | Yes | Yes | Own only |
 | **Dashboard** | View business finance analytics | **Yes** | Restricted Ops | Self Overview |
 | **Settings** | Update business configuration | **Yes** | **No** | **No** |
+

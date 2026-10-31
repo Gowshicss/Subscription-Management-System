@@ -117,10 +117,10 @@ export const CustomersPage: React.FC = () => {
                     <td className="text-xs text-muted">{customer.email}</td>
                     <td className="text-xs text-muted">{customer.phone}</td>
                     <td className="text-xs font-semibold">
-                      ${Number(customer.financialSummary?.totalInvoiced || 0).toFixed(2)}
+                      ₹{Number(customer.financialSummary?.totalInvoiced || 0).toFixed(2)}
                     </td>
                     <td className="text-xs font-bold text-red-600">
-                      ${Number(customer.financialSummary?.totalOutstanding || 0).toFixed(2)}
+                      ₹{Number(customer.financialSummary?.totalOutstanding || 0).toFixed(2)}
                     </td>
                     <td>
                       <button
@@ -188,19 +188,19 @@ export const CustomersPage: React.FC = () => {
                 <div>
                   <span className="text-[10px] font-bold text-muted uppercase">Total Invoiced</span>
                   <span className="text-sm font-bold text-charcoal block">
-                    ${Number(selectedCustomer.financialSummary?.totalInvoiced || 0).toFixed(2)}
+                    ₹{Number(selectedCustomer.financialSummary?.totalInvoiced || 0).toFixed(2)}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-muted uppercase">Total Paid</span>
                   <span className="text-sm font-bold text-emerald-700 block">
-                    ${Number(selectedCustomer.financialSummary?.totalPaid || 0).toFixed(2)}
+                    ₹{Number(selectedCustomer.financialSummary?.totalPaid || 0).toFixed(2)}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-muted uppercase">Outstanding Due</span>
                   <span className="text-sm font-bold text-red-600 block">
-                    ${Number(selectedCustomer.financialSummary?.totalOutstanding || 0).toFixed(2)}
+                    ₹{Number(selectedCustomer.financialSummary?.totalOutstanding || 0).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -368,3 +368,4 @@ export const CustomersPage: React.FC = () => {
     </div>
   );
 };
+

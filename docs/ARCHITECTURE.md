@@ -84,3 +84,4 @@ All financial metrics (prices, taxes, discounts, totals, balances) are calculate
   $$\text{Tax Amount} = \text{Taxable Amount} \times \text{Tax Rate}$$
   $$\text{Total Amount} = \text{Taxable Amount} + \text{Tax Amount}$$
   $$\text{Balance Due} = \max(0, \text{Total Amount} - \text{Amount Paid})$$
+

@@ -89,7 +89,7 @@ export const PaymentsPage: React.FC = () => {
                       </span>
                     </td>
                     <td className="text-xs font-bold text-emerald-700">
-                      +${Number(p.amount).toFixed(2)}
+                      +₹{Number(p.amount).toFixed(2)}
                     </td>
                     <td className="text-xs text-muted font-mono">
                       {new Date(p.paymentDate).toLocaleDateString()}
@@ -110,3 +110,4 @@ export const PaymentsPage: React.FC = () => {
     </div>
   );
 };
+

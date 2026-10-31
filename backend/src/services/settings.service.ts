@@ -21,8 +21,8 @@ class SettingsService {
         data: {
           id: 'default-settings',
           companyName: 'Brightloop Software',
-          currency: 'USD',
-          currencySymbol: '$',
+          currency: 'INR',
+          currencySymbol: '₹',
           taxNumber: 'US-BL-849204',
           contactEmail: 'billing@brightloop.io',
           contactPhone: '+1 (555) 019-2834',
@@ -57,3 +57,4 @@ class SettingsService {
 }
 
 export const settingsService = new SettingsService();
+

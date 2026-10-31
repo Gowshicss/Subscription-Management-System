@@ -15,3 +15,4 @@ export const config = {
     from: process.env.SMTP_FROM || 'Brightloop Software <billing@brightloop.io>',
   },
 };
+

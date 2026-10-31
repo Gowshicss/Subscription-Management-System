@@ -93,7 +93,7 @@ export const PlansPage: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <span className="text-xl font-bold text-plum block">
-                      ${Number(plan.basePrice).toFixed(2)}
+                      ₹{Number(plan.basePrice).toFixed(2)}
                     </span>
                     <span className="text-[10px] text-muted">
                       / {plan.billingFrequency.toLowerCase().replace('ly', '')}
@@ -212,7 +212,7 @@ export const PlansPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1">
-                    Base Recurring Price ($) *
+                    Base Recurring Price (₹) *
                   </label>
                   <input
                     type="number"
@@ -341,3 +341,4 @@ export const PlansPage: React.FC = () => {
     </div>
   );
 };
+

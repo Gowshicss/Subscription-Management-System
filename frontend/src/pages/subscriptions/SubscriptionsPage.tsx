@@ -119,7 +119,7 @@ export const SubscriptionsPage: React.FC = () => {
                       {new Date(sub.nextBillingDate).toLocaleDateString()}
                     </td>
                     <td className="text-xs font-bold text-charcoal">
-                      ${Number(sub.totalAmount).toFixed(2)}
+                      ₹{Number(sub.totalAmount).toFixed(2)}
                     </td>
                     <td>
                       <StatusBadge status={sub.status} size="sm" />
@@ -189,3 +189,4 @@ export const SubscriptionsPage: React.FC = () => {
     </div>
   );
 };
+

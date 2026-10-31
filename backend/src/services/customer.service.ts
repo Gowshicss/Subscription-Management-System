@@ -152,7 +152,7 @@ class CustomerService {
         country: input.country?.trim() || 'USA',
         postalCode: input.postalCode?.trim() || null,
         taxNumber: input.taxNumber?.trim() || null,
-        currency: input.currency || 'USD',
+        currency: input.currency || 'INR',
         notes: input.notes?.trim() || null,
       },
     });
@@ -180,3 +180,4 @@ class CustomerService {
 }
 
 export const customerService = new CustomerService();
+

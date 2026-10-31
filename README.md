@@ -233,3 +233,4 @@ Subscription-Management-System/
 ├── .env.example                  # Environment template
 └── README.md                     # Evaluator demonstration guide
 ```
+

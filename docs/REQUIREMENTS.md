@@ -93,3 +93,4 @@ Brightloop Software sells software subscriptions, recurring add-ons, and multi-v
 - **Security**: Password hashing with bcrypt, protected routes, JWT/cookie authentication, input sanitization, SQL injection prevention via Prisma ORM.
 - **Reliability & Idempotency**: Financial transactions wrapped in Prisma `$transaction` blocks.
 - **Evaluator Usability**: Ready-to-run setup via Docker Compose and pre-seeded realistic demo data.
+

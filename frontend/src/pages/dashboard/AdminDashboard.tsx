@@ -87,7 +87,7 @@ export const AdminDashboard: React.FC = () => {
         />
         <MetricCard
           title="Revenue Collected"
-          value={`$${Number(metrics.totalRevenueReceived || 0).toLocaleString(undefined, {
+          value={`₹${Number(metrics.totalRevenueReceived || 0).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`}
@@ -98,11 +98,11 @@ export const AdminDashboard: React.FC = () => {
         />
         <MetricCard
           title="Outstanding Receivables"
-          value={`$${Number(metrics.totalOutstandingAmount || 0).toLocaleString(undefined, {
+          value={`₹${Number(metrics.totalOutstandingAmount || 0).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`}
-          subtitle={`Total Invoiced: $${Number(metrics.totalInvoicedAmount || 0).toFixed(0)}`}
+          subtitle={`Total Invoiced: ₹${Number(metrics.totalInvoicedAmount || 0).toFixed(0)}`}
           icon={Receipt}
           badge="Unpaid"
           badgeType="warning"
@@ -110,7 +110,7 @@ export const AdminDashboard: React.FC = () => {
         <MetricCard
           title="Overdue Invoices"
           value={metrics.overdueCount || 0}
-          subtitle={`At Risk: $${Number(metrics.overdueAmount || 0).toFixed(2)}`}
+          subtitle={`At Risk: ₹${Number(metrics.overdueAmount || 0).toFixed(2)}`}
           icon={AlertTriangle}
           badge={metrics.overdueCount > 0 ? 'Action Required' : 'Clean'}
           badgeType={metrics.overdueCount > 0 ? 'danger' : 'success'}
@@ -121,11 +121,11 @@ export const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MetricCard
           title="Annual Run-Rate (ARR)"
-          value={`$${Number(metrics.arr || 0).toLocaleString(undefined, {
+          value={`₹${Number(metrics.arr || 0).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`}
-          subtitle={`MRR: $${Number(metrics.mrr || 0).toFixed(2)} / month`}
+          subtitle={`MRR: ₹${Number(metrics.mrr || 0).toFixed(2)} / month`}
           icon={TrendingUp}
         />
         <MetricCard
@@ -136,7 +136,7 @@ export const AdminDashboard: React.FC = () => {
         />
         <MetricCard
           title="Gross Invoiced Amount"
-          value={`$${Number(metrics.totalInvoicedAmount || 0).toLocaleString(undefined, {
+          value={`₹${Number(metrics.totalInvoicedAmount || 0).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`}
@@ -162,9 +162,9 @@ export const AdminDashboard: React.FC = () => {
               <BarChart data={charts.revenueTrend || []}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E4E1E5" />
                 <XAxis dataKey="month" stroke="#77727A" fontSize={11} />
-                <YAxis stroke="#77727A" fontSize={11} tickFormatter={(val) => `$${val}`} />
+                <YAxis stroke="#77727A" fontSize={11} tickFormatter={(val) => `₹${val}`} />
                 <Tooltip
-                  formatter={(val: any) => [`$${Number(val).toFixed(2)}`, '']}
+                  formatter={(val: any) => [`₹${Number(val).toFixed(2)}`, '']}
                   contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E4E1E5', fontSize: '12px' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
@@ -231,9 +231,9 @@ export const AdminDashboard: React.FC = () => {
                   <tr key={inv.id}>
                     <td className="font-mono font-bold text-xs text-plum">{inv.invoiceNumber}</td>
                     <td className="text-xs truncate max-w-[120px]">{inv.customer?.companyName}</td>
-                    <td className="text-xs font-semibold">${Number(inv.totalAmount).toFixed(2)}</td>
+                    <td className="text-xs font-semibold">₹{Number(inv.totalAmount).toFixed(2)}</td>
                     <td className="text-xs font-semibold text-red-600">
-                      ${Number(inv.balanceDue).toFixed(2)}
+                      ₹{Number(inv.balanceDue).toFixed(2)}
                     </td>
                     <td>
                       <StatusBadge status={inv.status} size="sm" />
@@ -278,7 +278,7 @@ export const AdminDashboard: React.FC = () => {
                     <td className="text-xs truncate max-w-[120px]">{p.customer?.companyName}</td>
                     <td className="text-[11px] text-muted">{p.paymentMethod.replace('_', ' ')}</td>
                     <td className="text-xs font-bold text-emerald-700">
-                      +${Number(p.amount).toFixed(2)}
+                      +₹{Number(p.amount).toFixed(2)}
                     </td>
                     <td className="text-xs text-muted">
                       {new Date(p.paymentDate).toLocaleDateString()}
@@ -300,3 +300,4 @@ export const AdminDashboard: React.FC = () => {
     </div>
   );
 };
+

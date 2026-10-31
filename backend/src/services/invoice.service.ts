@@ -124,7 +124,7 @@ class InvoiceService {
     const invoice = await this.getInvoiceById(id, userRole, customerId);
     const settings = await prisma.businessSettings.findFirst() || {
       companyName: 'Brightloop Software',
-      currencySymbol: '$',
+      currencySymbol: '₹',
       address: '100 Innovation Way, Suite 400, Tech City, TC 94016',
       contactEmail: 'billing@brightloop.io',
       taxNumber: 'US-BL-849204',
@@ -235,3 +235,4 @@ class InvoiceService {
 }
 
 export const invoiceService = new InvoiceService();
+

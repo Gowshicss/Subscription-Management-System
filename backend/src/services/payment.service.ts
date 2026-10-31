@@ -67,7 +67,7 @@ class PaymentService {
     // Allow small epsilon tolerance for float rounding
     if (input.amount > currentBalance + 0.001) {
       const err: any = new Error(
-        `Payment amount ($${input.amount.toFixed(2)}) exceeds outstanding balance of $${currentBalance.toFixed(2)}.`
+        `Payment amount (₹${input.amount.toFixed(2)}) exceeds outstanding balance of ₹${currentBalance.toFixed(2)}.`
       );
       err.statusCode = 400;
       err.code = 'OVERPAYMENT_REJECTED';
@@ -133,3 +133,4 @@ class PaymentService {
 }
 
 export const paymentService = new PaymentService();
+

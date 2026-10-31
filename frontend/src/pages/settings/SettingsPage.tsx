@@ -15,8 +15,8 @@ export const SettingsPage: React.FC = () => {
 
   const [formData, setFormData] = useState({
     companyName: '',
-    currency: 'USD',
-    currencySymbol: '$',
+    currency: 'INR',
+    currencySymbol: '₹',
     taxNumber: '',
     contactEmail: '',
     contactPhone: '',
@@ -30,8 +30,8 @@ export const SettingsPage: React.FC = () => {
     if (settings) {
       setFormData({
         companyName: settings.companyName || '',
-        currency: settings.currency || 'USD',
-        currencySymbol: settings.currencySymbol || '$',
+        currency: settings.currency || 'INR',
+        currencySymbol: settings.currencySymbol || '₹',
         taxNumber: settings.taxNumber || '',
         contactEmail: settings.contactEmail || '',
         contactPhone: settings.contactPhone || '',
@@ -172,10 +172,10 @@ export const SettingsPage: React.FC = () => {
                 }}
                 className="brutalist-input"
               >
+                <option value="INR">INR — Indian Rupee (₹)</option>
                 <option value="USD">USD — US Dollar ($)</option>
                 <option value="EUR">EUR — Euro (€)</option>
                 <option value="GBP">GBP — British Pound (£)</option>
-                <option value="INR">INR — Indian Rupee (₹)</option>
                 <option value="CAD">CAD — Canadian Dollar ($)</option>
               </select>
             </div>
@@ -235,3 +235,4 @@ export const SettingsPage: React.FC = () => {
     </div>
   );
 };
+

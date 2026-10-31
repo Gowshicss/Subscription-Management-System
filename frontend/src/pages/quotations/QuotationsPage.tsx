@@ -154,13 +154,13 @@ export const QuotationsPage: React.FC = () => {
                     <td className="text-xs text-muted">
                       {new Date(q.validUntil).toLocaleDateString()}
                     </td>
-                    <td className="text-xs font-semibold">${Number(q.subtotal).toFixed(2)}</td>
+                    <td className="text-xs font-semibold">₹{Number(q.subtotal).toFixed(2)}</td>
                     <td className="text-xs font-semibold text-emerald-700">
-                      -${Number(q.discountAmount).toFixed(2)}
+                      -₹{Number(q.discountAmount).toFixed(2)}
                     </td>
-                    <td className="text-xs text-muted">${Number(q.taxAmount).toFixed(2)}</td>
+                    <td className="text-xs text-muted">₹{Number(q.taxAmount).toFixed(2)}</td>
                     <td className="text-xs font-bold text-charcoal">
-                      ${Number(q.totalAmount).toFixed(2)}
+                      ₹{Number(q.totalAmount).toFixed(2)}
                     </td>
                     <td>
                       <StatusBadge status={q.status} size="sm" />
@@ -239,7 +239,7 @@ export const QuotationsPage: React.FC = () => {
                     <option value="">-- Select Plan --</option>
                     {(plans || []).map((p) => (
                       <option key={p.id} value={p.id}>
-                        {p.name} (${Number(p.basePrice).toFixed(2)} / {p.billingFrequency})
+                        {p.name} (₹{Number(p.basePrice).toFixed(2)} / {p.billingFrequency})
                       </option>
                     ))}
                   </select>
@@ -280,7 +280,7 @@ export const QuotationsPage: React.FC = () => {
                           <option value="">-- Select Product --</option>
                           {(products || []).map((p) => (
                             <option key={p.id} value={p.id}>
-                              {p.name} (${Number(p.salesPrice).toFixed(2)})
+                              {p.name} (₹{Number(p.salesPrice).toFixed(2)})
                             </option>
                           ))}
                         </select>
@@ -293,10 +293,10 @@ export const QuotationsPage: React.FC = () => {
                           className="brutalist-input text-xs"
                           disabled={availableVariants.length === 0}
                         >
-                          <option value="">Standard ($0)</option>
+                          <option value="">Standard (₹0)</option>
                           {availableVariants.map((v) => (
                             <option key={v.id} value={v.id}>
-                              {v.name} (+${Number(v.additionalPrice).toFixed(2)})
+                              {v.name} (+₹{Number(v.additionalPrice).toFixed(2)})
                             </option>
                           ))}
                         </select>
@@ -406,9 +406,9 @@ export const QuotationsPage: React.FC = () => {
                           )}
                         </td>
                         <td className="p-2 text-right">{item.quantity}</td>
-                        <td className="p-2 text-right">${Number(item.unitPrice).toFixed(2)}</td>
+                        <td className="p-2 text-right">₹{Number(item.unitPrice).toFixed(2)}</td>
                         <td className="p-2 text-right font-bold">
-                          ${Number(item.amount).toFixed(2)}
+                          ₹{Number(item.amount).toFixed(2)}
                         </td>
                       </tr>
                     ))}
@@ -421,21 +421,21 @@ export const QuotationsPage: React.FC = () => {
             <div className="p-3 bg-surface-secondary border border-border rounded text-xs space-y-1">
               <div className="flex justify-between">
                 <span className="text-muted">Subtotal:</span>
-                <span className="font-semibold">${Number(selectedQuotation.subtotal).toFixed(2)}</span>
+                <span className="font-semibold">₹{Number(selectedQuotation.subtotal).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-emerald-700">
                 <span>Discount Applied:</span>
                 <span className="font-semibold">
-                  -${Number(selectedQuotation.discountAmount).toFixed(2)}
+                  -₹{Number(selectedQuotation.discountAmount).toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between text-muted">
                 <span>Tax Amount:</span>
-                <span className="font-semibold">${Number(selectedQuotation.taxAmount).toFixed(2)}</span>
+                <span className="font-semibold">₹{Number(selectedQuotation.taxAmount).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-plum border-t border-border pt-1">
                 <span>Total Amount:</span>
-                <span>${Number(selectedQuotation.totalAmount).toFixed(2)}</span>
+                <span>₹{Number(selectedQuotation.totalAmount).toFixed(2)}</span>
               </div>
             </div>
 
@@ -453,3 +453,4 @@ export const QuotationsPage: React.FC = () => {
     </div>
   );
 };
+

@@ -129,3 +129,4 @@ router.get('/dashboard/summary', DashboardController.getSummary);
 router.put('/settings', requireRole(Role.ADMIN), SettingsController.update);
 
 export default router;
+

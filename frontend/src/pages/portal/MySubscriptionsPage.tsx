@@ -93,7 +93,7 @@ export const MySubscriptionsPage: React.FC = () => {
                 <div className="text-right">
                   <span className="text-xs text-muted block">Recurring Cycle Amount</span>
                   <span className="text-xl font-bold text-charcoal">
-                    ${Number(sub.totalAmount).toFixed(2)}
+                    ₹{Number(sub.totalAmount).toFixed(2)}
                   </span>
                 </div>
 
@@ -147,3 +147,4 @@ export const MySubscriptionsPage: React.FC = () => {
     </div>
   );
 };
+

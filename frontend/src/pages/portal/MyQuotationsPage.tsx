@@ -98,11 +98,11 @@ export const MyQuotationsPage: React.FC = () => {
                 <div className="text-right">
                   <span className="text-xs text-muted block">Contract Value</span>
                   <span className="text-xl font-bold text-charcoal">
-                    ${Number(quote.totalAmount).toFixed(2)}
+                    ₹{Number(quote.totalAmount).toFixed(2)}
                   </span>
                   {Number(quote.discountAmount) > 0 && (
                     <span className="text-[10px] font-semibold text-emerald-700 block">
-                      Includes ${Number(quote.discountAmount).toFixed(2)} discount
+                      Includes ₹{Number(quote.discountAmount).toFixed(2)} discount
                     </span>
                   )}
                 </div>
@@ -174,9 +174,9 @@ export const MyQuotationsPage: React.FC = () => {
                           )}
                         </td>
                         <td className="p-2 text-right">{item.quantity}</td>
-                        <td className="p-2 text-right">${Number(item.unitPrice).toFixed(2)}</td>
+                        <td className="p-2 text-right">₹{Number(item.unitPrice).toFixed(2)}</td>
                         <td className="p-2 text-right font-bold">
-                          ${Number(item.amount).toFixed(2)}
+                          ₹{Number(item.amount).toFixed(2)}
                         </td>
                       </tr>
                     ))}
@@ -189,23 +189,23 @@ export const MyQuotationsPage: React.FC = () => {
             <div className="p-3 bg-surface-secondary border border-border rounded text-xs space-y-1">
               <div className="flex justify-between">
                 <span className="text-muted">Subtotal:</span>
-                <span className="font-semibold">${Number(selectedQuote.subtotal).toFixed(2)}</span>
+                <span className="font-semibold">₹{Number(selectedQuote.subtotal).toFixed(2)}</span>
               </div>
               {Number(selectedQuote.discountAmount) > 0 && (
                 <div className="flex justify-between text-emerald-700">
                   <span>Discount:</span>
                   <span className="font-semibold">
-                    -${Number(selectedQuote.discountAmount).toFixed(2)}
+                    -₹{Number(selectedQuote.discountAmount).toFixed(2)}
                   </span>
                 </div>
               )}
               <div className="flex justify-between text-muted">
                 <span>Tax:</span>
-                <span className="font-semibold">${Number(selectedQuote.taxAmount).toFixed(2)}</span>
+                <span className="font-semibold">₹{Number(selectedQuote.taxAmount).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-plum border-t border-border pt-1">
                 <span>Total Amount:</span>
-                <span>${Number(selectedQuote.totalAmount).toFixed(2)}</span>
+                <span>₹{Number(selectedQuote.totalAmount).toFixed(2)}</span>
               </div>
             </div>
 
@@ -231,3 +231,4 @@ export const MyQuotationsPage: React.FC = () => {
     </div>
   );
 };
+

@@ -117,3 +117,4 @@ erDiagram
 
 ### 2.14. `BusinessSettings`
 - `id`, `companyName`, `currency`, `currencySymbol`, `taxNumber`, `contactEmail`, `contactPhone`, `address`, `invoicePrefix`, `quotationPrefix`, `subPrefix`.
+

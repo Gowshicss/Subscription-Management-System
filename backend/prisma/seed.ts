@@ -13,8 +13,8 @@ async function main() {
     create: {
       id: 'default-settings',
       companyName: 'Brightloop Software',
-      currency: 'USD',
-      currencySymbol: '$',
+      currency: 'INR',
+      currencySymbol: '₹',
       taxNumber: 'US-BL-849204',
       contactEmail: 'billing@brightloop.io',
       contactPhone: '+1 (555) 019-2834',
@@ -344,7 +344,7 @@ async function main() {
     update: {},
     create: {
       code: 'WELCOME50',
-      name: 'Welcome Bonus $50 Off',
+      name: 'Welcome Bonus ₹50 Off',
       type: DiscountType.FIXED,
       value: 50.00,
       minPurchaseAmount: 200.00,
@@ -529,3 +529,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+

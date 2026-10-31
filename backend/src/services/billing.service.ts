@@ -283,7 +283,7 @@ class BillingService {
     }
 
     console.log(
-      `[BillingEngine] Cycle [${runId}] complete. Evaluated: ${result.subscriptionsEvaluated}, Generated: ${result.invoicesGenerated}, Skipped: ${result.invoicesSkipped}, Total: $${result.totalBilledAmount.toFixed(2)}`
+      `[BillingEngine] Cycle [${runId}] complete. Evaluated: ${result.subscriptionsEvaluated}, Generated: ${result.invoicesGenerated}, Skipped: ${result.invoicesSkipped}, Total: ₹${result.totalBilledAmount.toFixed(2)}`
     );
 
     return result;
@@ -291,3 +291,4 @@ class BillingService {
 }
 
 export const billingService = new BillingService();
+

@@ -90,13 +90,13 @@ export const MyInvoicesPage: React.FC = () => {
                       )}
                     </td>
                     <td className="text-xs font-bold text-charcoal">
-                      ${Number(inv.totalAmount).toFixed(2)}
+                      ₹{Number(inv.totalAmount).toFixed(2)}
                     </td>
                     <td className="text-xs font-semibold text-emerald-700">
-                      ${Number(inv.amountPaid).toFixed(2)}
+                      ₹{Number(inv.amountPaid).toFixed(2)}
                     </td>
                     <td className="text-xs font-bold text-red-600">
-                      ${Number(inv.balanceDue).toFixed(2)}
+                      ₹{Number(inv.balanceDue).toFixed(2)}
                     </td>
                     <td>
                       <StatusBadge status={inv.status} size="sm" />
@@ -120,3 +120,4 @@ export const MyInvoicesPage: React.FC = () => {
     </div>
   );
 };
+

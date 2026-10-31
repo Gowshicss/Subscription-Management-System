@@ -124,3 +124,4 @@ Error envelope:
 - `GET /api/v1/dashboard/trends` — Revenue and subscription trends for Recharts
 - `GET /api/v1/settings` — Get business settings (currency, name, contact)
 - `PUT /api/v1/settings` — (Admin only) Update business settings
+

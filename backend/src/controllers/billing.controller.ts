@@ -8,10 +8,11 @@ export class BillingController {
       res.json({
         success: true,
         data: result,
-        message: `Billing cycle executed. Generated: ${result.invoicesGenerated}, Skipped: ${result.invoicesSkipped}, Total: $${result.totalBilledAmount.toFixed(2)}.`,
+        message: `Billing cycle executed. Generated: ${result.invoicesGenerated}, Skipped: ${result.invoicesSkipped}, Total: ₹${result.totalBilledAmount.toFixed(2)}.`,
       });
     } catch (err) {
       next(err);
     }
   }
 }
+

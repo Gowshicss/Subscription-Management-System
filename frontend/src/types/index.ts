@@ -269,3 +269,4 @@ export interface BusinessSettings {
   quotationPrefix: string;
   subPrefix: string;
 }
+

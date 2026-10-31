@@ -66,3 +66,4 @@ runPerformanceBenchmark()
   .finally(async () => {
     await prisma.$disconnect();
   });
+

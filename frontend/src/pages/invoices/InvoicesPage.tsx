@@ -169,13 +169,13 @@ export const InvoicesPage: React.FC = () => {
                       )}
                     </td>
                     <td className="text-xs font-bold text-charcoal">
-                      ${Number(inv.totalAmount).toFixed(2)}
+                      ₹{Number(inv.totalAmount).toFixed(2)}
                     </td>
                     <td className="text-xs font-semibold text-emerald-700">
-                      ${Number(inv.amountPaid).toFixed(2)}
+                      ₹{Number(inv.amountPaid).toFixed(2)}
                     </td>
                     <td className="text-xs font-bold text-red-600">
-                      ${Number(inv.balanceDue).toFixed(2)}
+                      ₹{Number(inv.balanceDue).toFixed(2)}
                     </td>
                     <td>
                       <StatusBadge status={inv.status} size="sm" />
@@ -255,7 +255,7 @@ export const InvoicesPage: React.FC = () => {
                     Invoice Total:
                   </span>
                   <span className="font-bold text-charcoal">
-                    ${Number(paymentModalInvoice.totalAmount).toFixed(2)}
+                    ₹{Number(paymentModalInvoice.totalAmount).toFixed(2)}
                   </span>
                 </div>
                 <div>
@@ -263,7 +263,7 @@ export const InvoicesPage: React.FC = () => {
                     Already Paid:
                   </span>
                   <span className="font-bold text-emerald-700">
-                    ${Number(paymentModalInvoice.amountPaid).toFixed(2)}
+                    ₹{Number(paymentModalInvoice.amountPaid).toFixed(2)}
                   </span>
                 </div>
                 <div className="text-right">
@@ -271,14 +271,14 @@ export const InvoicesPage: React.FC = () => {
                     Outstanding Balance:
                   </span>
                   <span className="font-bold text-red-600 text-sm">
-                    ${Number(paymentModalInvoice.balanceDue).toFixed(2)}
+                    ₹{Number(paymentModalInvoice.balanceDue).toFixed(2)}
                   </span>
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1">
-                  Payment Amount ($) *
+                  Payment Amount (₹) *
                 </label>
                 <input
                   type="number"
@@ -291,7 +291,7 @@ export const InvoicesPage: React.FC = () => {
                   className="brutalist-input font-bold"
                 />
                 <span className="text-[10px] text-muted block mt-1">
-                  Enter partial amount or settle the entire balance ($
+                  Enter partial amount or settle the entire balance (₹
                   {Number(paymentModalInvoice.balanceDue).toFixed(2)})
                 </span>
               </div>
@@ -349,3 +349,4 @@ export const InvoicesPage: React.FC = () => {
     </div>
   );
 };
+

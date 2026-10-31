@@ -125,11 +125,11 @@ export const DiscountsPage: React.FC = () => {
                     <td className="text-xs font-bold text-emerald-700">
                       {d.type === 'PERCENTAGE'
                         ? `${Number(d.value)}%`
-                        : `$${Number(d.value).toFixed(2)}`}
+                        : `₹${Number(d.value).toFixed(2)}`}
                     </td>
                     <td className="text-xs text-muted">
                       {d.minPurchaseAmount && (
-                        <span className="block">Min: ${Number(d.minPurchaseAmount).toFixed(2)}</span>
+                        <span className="block">Min: ₹{Number(d.minPurchaseAmount).toFixed(2)}</span>
                       )}
                       {d.minQuantity && <span className="block">Min Qty: {d.minQuantity}</span>}
                       {!d.minPurchaseAmount && !d.minQuantity && <span>None</span>}
@@ -225,7 +225,7 @@ export const DiscountsPage: React.FC = () => {
                     className="brutalist-input"
                   >
                     <option value="PERCENTAGE">PERCENTAGE (%)</option>
-                    <option value="FIXED">FIXED AMOUNT ($)</option>
+                    <option value="FIXED">FIXED AMOUNT (₹)</option>
                   </select>
                 </div>
                 <div>
@@ -247,7 +247,7 @@ export const DiscountsPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1">
-                    Min Purchase ($)
+                    Min Purchase (₹)
                   </label>
                   <input
                     type="number"
@@ -359,3 +359,4 @@ export const DiscountsPage: React.FC = () => {
     </div>
   );
 };
+

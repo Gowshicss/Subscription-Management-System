@@ -42,7 +42,7 @@ export const AppLayout: React.FC = () => {
     try {
       const res: any = await api.post('/billing/trigger');
       setBillingToast(
-        `Billing run complete! Invoices Generated: ${res.invoicesGenerated}, Skipped: ${res.invoicesSkipped}, Total: $${Number(res.totalBilledAmount).toFixed(2)}`
+        `Billing run complete! Invoices Generated: ${res.invoicesGenerated}, Skipped: ${res.invoicesSkipped}, Total: ₹${Number(res.totalBilledAmount).toFixed(2)}`
       );
       setTimeout(() => setBillingToast(null), 8000);
     } catch (err: any) {
@@ -240,3 +240,4 @@ export const AppLayout: React.FC = () => {
     </div>
   );
 };
+

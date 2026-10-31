@@ -127,10 +127,10 @@ export const ProductsPage: React.FC = () => {
 
                 <div className="text-right">
                   <span className="text-lg font-bold text-plum block">
-                    ${Number(product.salesPrice).toFixed(2)}
+                    ₹{Number(product.salesPrice).toFixed(2)}
                   </span>
                   <span className="text-[10px] text-muted block">
-                    Cost: ${Number(product.costPrice).toFixed(2)}
+                    Cost: ₹{Number(product.costPrice).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -172,8 +172,8 @@ export const ProductsPage: React.FC = () => {
                       </div>
                       <span className="font-mono font-bold text-teal-dark shrink-0">
                         {Number(v.additionalPrice) > 0
-                          ? `+$${Number(v.additionalPrice).toFixed(2)}`
-                          : 'Included ($0.00)'}
+                          ? `+₹${Number(v.additionalPrice).toFixed(2)}`
+                          : 'Included (₹0.00)'}
                       </span>
                     </div>
                   ))}
@@ -264,7 +264,7 @@ export const ProductsPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1">
-                    Sales Price ($) *
+                    Sales Price (₹) *
                   </label>
                   <input
                     type="number"
@@ -278,7 +278,7 @@ export const ProductsPage: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1">
-                    Cost Price ($) *
+                    Cost Price (₹) *
                   </label>
                   <input
                     type="number"
@@ -364,7 +364,7 @@ export const ProductsPage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-1">
-                  Additional Price ($) *
+                  Additional Price (₹) *
                 </label>
                 <input
                   type="number"
@@ -378,7 +378,7 @@ export const ProductsPage: React.FC = () => {
                   className="brutalist-input"
                 />
                 <span className="text-[10px] text-muted block mt-1">
-                  Added to base product sales price (${Number(selectedProductForVariant.salesPrice).toFixed(2)})
+                  Added to base product sales price (₹{Number(selectedProductForVariant.salesPrice).toFixed(2)})
                 </span>
               </div>
 
@@ -418,3 +418,4 @@ export const ProductsPage: React.FC = () => {
     </div>
   );
 };
+
