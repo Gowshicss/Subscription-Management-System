@@ -241,38 +241,55 @@ export const LoginPage: React.FC = () => {
                     type="button"
                     disabled={loading || demoLoadingRole !== null}
                     onClick={() => handleQuickLogin('ADMIN')}
-                    className="px-2.5 py-2 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center disabled:opacity-50 flex items-center justify-center gap-1.5"
+                    className="p-2.5 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-xl hover:border-plum hover:text-plum hover:bg-plum/5 transition-all text-center disabled:opacity-50 flex flex-col items-center justify-center gap-0.5 group cursor-pointer shadow-2xs"
                   >
-                    {demoLoadingRole === 'ADMIN' ? (
-                      <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
-                    ) : null}
-                    <span>Admin</span>
+                    <div className="flex items-center gap-1.5 font-bold text-charcoal group-hover:text-plum">
+                      {demoLoadingRole === 'ADMIN' ? (
+                        <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
+                      ) : null}
+                      <span>Admin</span>
+                    </div>
+                    <span className="text-[9px] text-muted font-normal group-hover:text-plum/80 truncate w-full text-center">
+                      admin@brightloop.io
+                    </span>
                   </button>
+
                   <button
                     type="button"
                     disabled={loading || demoLoadingRole !== null}
                     onClick={() => handleQuickLogin('STAFF')}
-                    className="px-2.5 py-2 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center disabled:opacity-50 flex items-center justify-center gap-1.5"
+                    className="p-2.5 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-xl hover:border-plum hover:text-plum hover:bg-plum/5 transition-all text-center disabled:opacity-50 flex flex-col items-center justify-center gap-0.5 group cursor-pointer shadow-2xs"
                   >
-                    {demoLoadingRole === 'STAFF' ? (
-                      <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
-                    ) : null}
-                    <span>Staff</span>
+                    <div className="flex items-center gap-1.5 font-bold text-charcoal group-hover:text-plum">
+                      {demoLoadingRole === 'STAFF' ? (
+                        <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
+                      ) : null}
+                      <span>Staff</span>
+                    </div>
+                    <span className="text-[9px] text-muted font-normal group-hover:text-plum/80 truncate w-full text-center">
+                      staff@brightloop.io
+                    </span>
                   </button>
+
                   <button
                     type="button"
                     disabled={loading || demoLoadingRole !== null}
                     onClick={() => handleQuickLogin('CUSTOMER')}
-                    className="px-2.5 py-2 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center disabled:opacity-50 flex items-center justify-center gap-1.5"
+                    className="p-2.5 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-xl hover:border-plum hover:text-plum hover:bg-plum/5 transition-all text-center disabled:opacity-50 flex flex-col items-center justify-center gap-0.5 group cursor-pointer shadow-2xs"
                   >
-                    {demoLoadingRole === 'CUSTOMER' ? (
-                      <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
-                    ) : null}
-                    <span>Customer</span>
+                    <div className="flex items-center gap-1.5 font-bold text-charcoal group-hover:text-plum">
+                      {demoLoadingRole === 'CUSTOMER' ? (
+                        <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
+                      ) : null}
+                      <span>Customer</span>
+                    </div>
+                    <span className="text-[9px] text-muted font-normal group-hover:text-plum/80 truncate w-full text-center">
+                      acme@customer.com
+                    </span>
                   </button>
                 </div>
                 <p className="text-[10px] text-muted mt-2 text-center">
-                  One-click evaluator access with pre-configured demo profiles
+                  Click any profile to autofill credentials and sign in directly
                 </p>
               </div>
             )}

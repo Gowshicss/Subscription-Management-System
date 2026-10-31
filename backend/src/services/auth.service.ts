@@ -162,10 +162,22 @@ class AuthService {
   }
 
   async login(input: LoginInput) {
-    const user = await prisma.user.findUnique({
-      where: { email: input.email.toLowerCase().trim() },
+    const normalizedEmail = input.email.toLowerCase().trim();
+    let user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
       include: { customer: true },
     });
+
+    // Auto-provision missing demo accounts on-the-fly if demo login is enabled
+    if (!user && config.enableDemoLogin) {
+      if (normalizedEmail === config.demoAccounts.adminEmail && input.password === 'Brightloop@2026!') {
+        user = await this.ensureDemoUser(Role.ADMIN);
+      } else if (normalizedEmail === config.demoAccounts.staffEmail && input.password === 'Staff@2026!') {
+        user = await this.ensureDemoUser(Role.STAFF);
+      } else if (normalizedEmail === config.demoAccounts.customerEmail && input.password === 'Customer@2026!') {
+        user = await this.ensureDemoUser(Role.CUSTOMER);
+      }
+    }
 
     if (!user) {
       const err: any = new Error('Invalid email or password.');
@@ -362,6 +374,80 @@ class AuthService {
     };
   }
 
+  async ensureDemoUser(role: Role) {
+    let email: string;
+    let firstName: string;
+    let lastName: string;
+    let password: string;
+
+    if (role === Role.ADMIN) {
+      email = config.demoAccounts.adminEmail;
+      firstName = 'Admin';
+      lastName = 'User';
+      password = 'Brightloop@2026!';
+    } else if (role === Role.STAFF) {
+      email = config.demoAccounts.staffEmail;
+      firstName = 'Elena';
+      lastName = 'Rostova';
+      password = 'Staff@2026!';
+    } else if (role === Role.CUSTOMER) {
+      email = config.demoAccounts.customerEmail;
+      firstName = 'Marcus';
+      lastName = 'Vance';
+      password = 'Customer@2026!';
+    } else {
+      return null;
+    }
+
+    let user = await prisma.user.findUnique({
+      where: { email },
+      include: { customer: true },
+    });
+
+    if (!user) {
+      const passwordHash = await bcrypt.hash(password, 10);
+      user = await prisma.user.create({
+        data: {
+          email,
+          passwordHash,
+          firstName,
+          lastName,
+          role,
+          phone: '+1 555-010-0001',
+          isActive: true,
+        },
+        include: { customer: true },
+      });
+    }
+
+    if (role === Role.CUSTOMER && !user.customer) {
+      await prisma.customer.upsert({
+        where: { email },
+        update: { userId: user.id },
+        create: {
+          userId: user.id,
+          companyName: 'Acme Technologies',
+          contactName: `${firstName} ${lastName}`,
+          email,
+          phone: '+1 555-012-4411',
+          billingAddress: '500 Harbor Blvd, Suite 10',
+          city: 'San Francisco',
+          state: 'CA',
+          country: 'USA',
+          postalCode: '94107',
+          taxNumber: 'US-ACME-9948',
+          currency: 'INR',
+        },
+      });
+      user = (await prisma.user.findUnique({
+        where: { id: user.id },
+        include: { customer: true },
+      }))!;
+    }
+
+    return user;
+  }
+
   async demoLogin(role: Role) {
     if (!config.enableDemoLogin) {
       const err: any = new Error('Demo quick-login is disabled on this server.');
@@ -384,10 +470,14 @@ class AuthService {
       throw err;
     }
 
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { email: targetEmail },
       include: { customer: true },
     });
+
+    if (!user) {
+      user = await this.ensureDemoUser(role);
+    }
 
     if (!user) {
       const err: any = new Error(
