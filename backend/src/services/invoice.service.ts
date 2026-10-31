@@ -118,13 +118,13 @@ class InvoiceService {
   }
 
   /**
-   * Generates a PDF stream for the invoice with corporate brutalist styling.
+   * Generates a PDF stream for the invoice with modern clean typography and proper column bounding.
    */
   async generateInvoicePdf(id: string, userRole: Role, customerId?: string | null): Promise<PDFKit.PDFDocument> {
     const invoice = await this.getInvoiceById(id, userRole, customerId);
-    const settings = await prisma.businessSettings.findFirst() || {
+    const settings = (await prisma.businessSettings.findFirst()) || {
       companyName: 'Brightloop Software',
-      currencySymbol: '₹',
+      currencySymbol: 'Rs. ',
       address: '100 Innovation Way, Suite 400, Tech City, TC 94016',
       contactEmail: 'billing@brightloop.io',
       taxNumber: 'US-BL-849204',
@@ -132,100 +132,124 @@ class InvoiceService {
 
     const doc = new PDFDocument({ margin: 50, size: 'A4' });
 
-    // Header Plum Block
-    doc.fillColor('#4B2D47').rect(50, 45, 495, 4).fill();
+    // Use 'Rs. ' for standard PDFKit fonts since Helvetica does not support unicode '₹'
+    const currSymbol = settings.currencySymbol === '₹' ? 'Rs. ' : (settings.currencySymbol ? `${settings.currencySymbol} ` : 'Rs. ');
 
-    doc.fillColor('#4B2D47').fontSize(22).font('Helvetica-Bold').text('BRIGHTLOOP SOFTWARE', 50, 60);
-    doc.fillColor('#77727A').fontSize(9).font('Helvetica').text('Subscription Management System', 50, 85);
-    doc.text(settings.address, 50, 98);
-    doc.text(`Email: ${settings.contactEmail}  |  Tax ID: ${settings.taxNumber}`, 50, 110);
+    // Top Accent line (Plum)
+    doc.fillColor('#5E3A54').rect(50, 45, 495, 4).fill();
+
+    // Header Brand
+    doc.fillColor('#5E3A54').fontSize(20).font('Helvetica-Bold').text('BRIGHTLOOP SOFTWARE', 50, 60);
+    doc.fillColor('#737078').fontSize(8.5).font('Helvetica').text('Subscription Management System', 50, 83);
+    doc.text(settings.address, 50, 95);
+    doc.text(`Email: ${settings.contactEmail}  |  Tax ID: ${settings.taxNumber}`, 50, 107);
 
     // Invoice Meta Right Column
-    doc.fillColor('#252329').fontSize(18).font('Helvetica-Bold').text('INVOICE', 350, 60, { align: 'right' });
-    doc.fontSize(10).font('Helvetica-Bold').fillColor('#79516F').text(invoice.invoiceNumber, 350, 82, { align: 'right' });
-    doc.fontSize(9).font('Helvetica').fillColor('#77727A');
-    doc.text(`Status: ${invoice.status}`, 350, 96, { align: 'right' });
-    doc.text(`Date: ${new Date(invoice.invoiceDate).toLocaleDateString()}`, 350, 108, { align: 'right' });
-    doc.text(`Due Date: ${new Date(invoice.dueDate).toLocaleDateString()}`, 350, 120, { align: 'right' });
+    doc.fillColor('#1F1E22').fontSize(22).font('Helvetica-Bold').text('INVOICE', 320, 58, { width: 225, align: 'right' });
+    doc.fontSize(10).font('Helvetica-Bold').fillColor('#5E3A54').text(invoice.invoiceNumber, 320, 83, { width: 225, align: 'right' });
+    doc.fontSize(8.5).font('Helvetica').fillColor('#737078');
+    doc.text(`Status: ${invoice.status}`, 320, 96, { width: 225, align: 'right' });
+    doc.text(`Date: ${new Date(invoice.invoiceDate).toLocaleDateString()}`, 320, 108, { width: 225, align: 'right' });
+    doc.text(`Due Date: ${new Date(invoice.dueDate).toLocaleDateString()}`, 320, 120, { width: 225, align: 'right' });
 
-    doc.moveTo(50, 140).lineTo(545, 140).strokeColor('#E4E1E5').stroke();
+    // Divider
+    doc.strokeColor('#E7E5E4').lineWidth(1).moveTo(50, 138).lineTo(545, 138).stroke();
 
-    // Bill To
-    doc.fillColor('#4B2D47').fontSize(11).font('Helvetica-Bold').text('BILL TO:', 50, 155);
-    doc.fillColor('#252329').fontSize(11).font('Helvetica-Bold').text(invoice.customer.companyName, 50, 170);
-    doc.fillColor('#77727A').fontSize(9).font('Helvetica');
-    doc.text(`Attn: ${invoice.customer.contactName}`, 50, 185);
-    doc.text(invoice.customer.billingAddress, 50, 197);
-    doc.text(`Email: ${invoice.customer.email}  |  Phone: ${invoice.customer.phone}`, 50, 209);
+    // BILL TO Card
+    doc.fillColor('#FAF9F6').roundedRect(50, 150, 240, 88, 6).fill();
+    doc.strokeColor('#E7E5E4').roundedRect(50, 150, 240, 88, 6).stroke();
+
+    doc.fillColor('#737078').fontSize(7.5).font('Helvetica-Bold').text('BILL TO', 62, 160);
+    doc.fillColor('#1F1E22').fontSize(11).font('Helvetica-Bold').text(invoice.customer.companyName, 62, 172, { width: 216 });
+    doc.fillColor('#737078').fontSize(8.5).font('Helvetica');
+    doc.text(`Attn: ${invoice.customer.contactName}`, 62, 187, { width: 216 });
+    doc.text(invoice.customer.billingAddress, 62, 199, { width: 216, lineBreak: false, ellipsis: true });
+    doc.text(`Email: ${invoice.customer.email}`, 62, 211, { width: 216 });
     if (invoice.customer.taxNumber) {
-      doc.text(`Customer Tax ID: ${invoice.customer.taxNumber}`, 50, 221);
+      doc.text(`Tax ID: ${invoice.customer.taxNumber}`, 62, 223, { width: 216 });
     }
 
-    // Billing Period & Subscription Info
-    doc.fillColor('#4B2D47').fontSize(11).font('Helvetica-Bold').text('SUBSCRIPTION DETAILS:', 320, 155);
-    doc.fillColor('#77727A').fontSize(9).font('Helvetica');
-    doc.text(`Subscription: ${invoice.subscription.subscriptionNumber}`, 320, 170);
-    doc.text(`Plan: ${invoice.subscription.plan.name}`, 320, 185);
-    doc.text(
-      `Period: ${new Date(invoice.periodStart).toLocaleDateString()} – ${new Date(invoice.periodEnd).toLocaleDateString()}`,
-      320,
-      197
-    );
+    // SUBSCRIPTION DETAILS Card
+    doc.fillColor('#FAF9F6').roundedRect(305, 150, 240, 88, 6).fill();
+    doc.strokeColor('#E7E5E4').roundedRect(305, 150, 240, 88, 6).stroke();
+
+    doc.fillColor('#737078').fontSize(7.5).font('Helvetica-Bold').text('SUBSCRIPTION DETAILS', 317, 160);
+    doc.fillColor('#5E3A54').fontSize(10).font('Helvetica-Bold').text(invoice.subscription.subscriptionNumber, 317, 172);
+    doc.fillColor('#1F1E22').fontSize(8.5).font('Helvetica');
+    doc.text(`Plan: ${invoice.subscription.plan.name}`, 317, 187);
+    doc.text(`Frequency: ${invoice.subscription.plan.billingFrequency}`, 317, 199);
+    doc.text(`Period: ${new Date(invoice.periodStart).toLocaleDateString()} – ${new Date(invoice.periodEnd).toLocaleDateString()}`, 317, 211);
 
     // Items Table Header
-    const tableTop = 250;
-    doc.fillColor('#F4F4F5').rect(50, tableTop, 495, 24).fill();
-    doc.strokeColor('#E4E1E5').rect(50, tableTop, 495, 24).stroke();
+    const tableTop = 255;
+    doc.fillColor('#FAF9F6').roundedRect(50, tableTop, 495, 24, 4).fill();
+    doc.strokeColor('#E7E5E4').roundedRect(50, tableTop, 495, 24, 4).stroke();
 
-    doc.fillColor('#252329').fontSize(9).font('Helvetica-Bold');
-    doc.text('DESCRIPTION', 60, tableTop + 7);
-    doc.text('QTY', 280, tableTop + 7, { align: 'right' });
-    doc.text('UNIT PRICE', 360, tableTop + 7, { align: 'right' });
-    doc.text('TAX', 440, tableTop + 7, { align: 'right' });
-    doc.text('AMOUNT', 535, tableTop + 7, { align: 'right' });
+    doc.fillColor('#737078').fontSize(8).font('Helvetica-Bold');
+    doc.text('DESCRIPTION', 62, tableTop + 8, { width: 215, align: 'left' });
+    doc.text('QTY', 282, tableTop + 8, { width: 35, align: 'center' });
+    doc.text('UNIT PRICE', 325, tableTop + 8, { width: 75, align: 'right' });
+    doc.text('TAX', 410, tableTop + 8, { width: 35, align: 'right' });
+    doc.text('AMOUNT', 455, tableTop + 8, { width: 80, align: 'right' });
 
     let y = tableTop + 24;
-    doc.font('Helvetica').fontSize(9).fillColor('#252329');
+    doc.font('Helvetica').fontSize(8.5).fillColor('#1F1E22');
 
     for (const item of invoice.items) {
-      doc.strokeColor('#E4E1E5').moveTo(50, y + 24).lineTo(545, y + 24).stroke();
-      doc.text(item.description, 60, y + 7, { width: 220 });
-      doc.text(item.quantity.toString(), 280, y + 7, { align: 'right' });
-      doc.text(`${settings.currencySymbol}${Number(item.unitPrice).toFixed(2)}`, 360, y + 7, { align: 'right' });
-      doc.text(`${Number(item.taxRate).toFixed(0)}%`, 440, y + 7, { align: 'right' });
-      doc.text(`${settings.currencySymbol}${Number(item.totalAmount).toFixed(2)}`, 535, y + 7, { align: 'right' });
-      y += 26;
+      doc.strokeColor('#F0EFF1').moveTo(50, y + 26).lineTo(545, y + 26).stroke();
+      doc.text(item.description, 62, y + 8, { width: 215, align: 'left' });
+      doc.text(item.quantity.toString(), 282, y + 8, { width: 35, align: 'center' });
+      doc.text(`${currSymbol}${Number(item.unitPrice).toFixed(2)}`, 325, y + 8, { width: 75, align: 'right' });
+      doc.text(`${Number(item.taxRate).toFixed(0)}%`, 410, y + 8, { width: 35, align: 'right' });
+      doc.font('Helvetica-Bold').text(`${currSymbol}${Number(item.totalAmount).toFixed(2)}`, 455, y + 8, { width: 80, align: 'right' });
+      doc.font('Helvetica');
+      y += 28;
     }
 
-    // Totals Section
+    // Bottom Section: Payment Instructions on Left, Totals on Right
     const totalsTop = y + 20;
-    doc.font('Helvetica').fontSize(10).fillColor('#77727A');
-    doc.text('Subtotal:', 380, totalsTop, { align: 'right' });
-    doc.text(`${settings.currencySymbol}${Number(invoice.subtotal).toFixed(2)}`, 535, totalsTop, { align: 'right' });
 
-    doc.text('Discount:', 380, totalsTop + 16, { align: 'right' });
-    doc.text(`-${settings.currencySymbol}${Number(invoice.discountAmount).toFixed(2)}`, 535, totalsTop + 16, { align: 'right' });
+    // Left Side: Payment terms / notes
+    doc.fillColor('#FAF9F6').roundedRect(50, totalsTop, 240, 112, 6).fill();
+    doc.strokeColor('#E7E5E4').roundedRect(50, totalsTop, 240, 112, 6).stroke();
+    doc.fillColor('#737078').fontSize(8).font('Helvetica-Bold').text('PAYMENT & REMITTANCE INSTRUCTIONS', 62, totalsTop + 12);
+    doc.fillColor('#1F1E22').fontSize(8.5).font('Helvetica');
+    doc.text('Bank Name: HDFC Bank Ltd', 62, totalsTop + 28);
+    doc.text('Account Name: Brightloop Software Solutions', 62, totalsTop + 42);
+    doc.text('Account Number: 50200084920411', 62, totalsTop + 56);
+    doc.text('IFSC Code: HDFC0001234', 62, totalsTop + 70);
+    doc.fillColor('#737078').fontSize(7.5).text('Please include invoice number in payment description.', 62, totalsTop + 90);
 
-    doc.text('Tax Amount:', 380, totalsTop + 32, { align: 'right' });
-    doc.text(`${settings.currencySymbol}${Number(invoice.taxAmount).toFixed(2)}`, 535, totalsTop + 32, { align: 'right' });
+    // Right Side: Subtotal, Discount, Tax
+    doc.font('Helvetica').fontSize(9).fillColor('#737078');
+    doc.text('Subtotal:', 310, totalsTop + 4, { width: 110, align: 'left' });
+    doc.fillColor('#1F1E22').font('Helvetica-Bold').text(`${currSymbol}${Number(invoice.subtotal).toFixed(2)}`, 425, totalsTop + 4, { width: 110, align: 'right' });
 
-    // Total Block
-    doc.fillColor('#4B2D47').rect(350, totalsTop + 50, 195, 26).fill();
-    doc.fillColor('#FFFFFF').fontSize(11).font('Helvetica-Bold');
-    doc.text('TOTAL AMOUNT:', 360, totalsTop + 58);
-    doc.text(`${settings.currencySymbol}${Number(invoice.totalAmount).toFixed(2)}`, 535, totalsTop + 58, { align: 'right' });
+    doc.font('Helvetica').fillColor('#737078').text('Discount:', 310, totalsTop + 20, { width: 110, align: 'left' });
+    doc.fillColor('#059669').font('Helvetica-Bold').text(`-${currSymbol}${Number(invoice.discountAmount).toFixed(2)}`, 425, totalsTop + 20, { width: 110, align: 'right' });
+
+    doc.font('Helvetica').fillColor('#737078').text('Tax Amount:', 310, totalsTop + 36, { width: 110, align: 'left' });
+    doc.fillColor('#1F1E22').font('Helvetica-Bold').text(`${currSymbol}${Number(invoice.taxAmount).toFixed(2)}`, 425, totalsTop + 36, { width: 110, align: 'right' });
+
+    // Total Block Banner (Deep Plum #5E3A54)
+    doc.fillColor('#5E3A54').roundedRect(305, totalsTop + 54, 240, 28, 4).fill();
+    doc.fillColor('#FFFFFF').fontSize(10).font('Helvetica-Bold');
+    doc.text('TOTAL AMOUNT:', 317, totalsTop + 63, { width: 100, align: 'left' });
+    doc.text(`${currSymbol}${Number(invoice.totalAmount).toFixed(2)}`, 420, totalsTop + 63, { width: 115, align: 'right' });
 
     // Paid & Balance Due
-    doc.fillColor('#252329').fontSize(10).font('Helvetica');
-    doc.text('Amount Paid:', 380, totalsTop + 85, { align: 'right' });
-    doc.text(`${settings.currencySymbol}${Number(invoice.amountPaid).toFixed(2)}`, 535, totalsTop + 85, { align: 'right' });
+    doc.fillColor('#737078').fontSize(9).font('Helvetica');
+    doc.text('Amount Paid:', 310, totalsTop + 90, { width: 110, align: 'left' });
+    doc.fillColor('#059669').font('Helvetica-Bold').text(`${currSymbol}${Number(invoice.amountPaid).toFixed(2)}`, 425, totalsTop + 90, { width: 110, align: 'right' });
 
-    doc.font('Helvetica-Bold').fillColor(Number(invoice.balanceDue) > 0 ? '#DC2626' : '#059669');
-    doc.text('Balance Due:', 380, totalsTop + 102, { align: 'right' });
-    doc.text(`${settings.currencySymbol}${Number(invoice.balanceDue).toFixed(2)}`, 535, totalsTop + 102, { align: 'right' });
+    doc.strokeColor('#E7E5E4').moveTo(310, totalsTop + 106).lineTo(545, totalsTop + 106).stroke();
+
+    doc.font('Helvetica-Bold').fontSize(10).fillColor(Number(invoice.balanceDue) > 0 ? '#DC2626' : '#059669');
+    doc.text('Balance Due:', 310, totalsTop + 112, { width: 110, align: 'left' });
+    doc.text(`${currSymbol}${Number(invoice.balanceDue).toFixed(2)}`, 420, totalsTop + 112, { width: 115, align: 'right' });
 
     // Footer
-    doc.fillColor('#77727A').fontSize(8).font('Helvetica');
+    doc.fillColor('#737078').fontSize(8).font('Helvetica');
     doc.text('Thank you for choosing Brightloop Software.', 50, 750, { align: 'center', width: 495 });
     doc.text('Payment is due within 15 days of invoice date. Inquiries: billing@brightloop.io', 50, 762, { align: 'center', width: 495 });
 

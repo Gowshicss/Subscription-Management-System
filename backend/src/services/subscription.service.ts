@@ -384,9 +384,6 @@ class SubscriptionService {
       case BillingFrequency.MONTHLY:
         nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
         break;
-      case BillingFrequency.QUARTERLY:
-        nextBillingDate.setMonth(nextBillingDate.getMonth() + 3);
-        break;
       case BillingFrequency.YEARLY:
         nextBillingDate.setFullYear(nextBillingDate.getFullYear() + 1);
         break;
