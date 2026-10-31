@@ -272,7 +272,39 @@ async function inspectPidForensics() {
     console.log(`  All Enums in public   : ${enumNames.join(', ') || '(none)'}`);
 
     // -------------------------------------------------------------------------
-    // 5. SUMMARY
+    // 5. INSPECT USER & SEED DATA STATUS (RECORD COUNTS ONLY, NO SENSITIVE DATA)
+    // -------------------------------------------------------------------------
+    console.log('\n[SECTION 5: USER & SEED RECORD INVENTORY]');
+    if (tableNames.includes('User')) {
+      const userCount = await prisma.user.count();
+      const adminCount = await prisma.user.count({ where: { role: 'ADMIN' } });
+      const staffCount = await prisma.user.count({ where: { role: 'STAFF' } });
+      const customerCount = await prisma.user.count({ where: { role: 'CUSTOMER' } });
+      const productCount = tableNames.includes('Product') ? await prisma.product.count() : 0;
+      const planCount = tableNames.includes('SubscriptionPlan') ? await prisma.subscriptionPlan.count() : 0;
+      const customerCountTable = tableNames.includes('Customer') ? await prisma.customer.count() : 0;
+
+      console.log(`  Total Users in DB       : ${userCount}`);
+      console.log(`  - ADMIN Users           : ${adminCount}`);
+      console.log(`  - STAFF Users           : ${staffCount}`);
+      console.log(`  - CUSTOMER Users        : ${customerCount}`);
+      console.log(`  Total Products in DB    : ${productCount}`);
+      console.log(`  Total Plans in DB       : ${planCount}`);
+      console.log(`  Total Customers in DB   : ${customerCountTable}`);
+
+      if (userCount === 0) {
+        console.log('\n  -> SEED STATUS: DATABASE IS UNSEEDED (0 users exist).');
+        console.log('     Login attempts with default/demo credentials will fail with');
+        console.log('     "Invalid email or password" because no user records exist yet.');
+      } else {
+        console.log(`\n  -> SEED STATUS: ${userCount} user(s) exist (${adminCount} admin).`);
+      }
+    } else {
+      console.log('  -> User table does not exist.');
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. SUMMARY
     // -------------------------------------------------------------------------
     console.log('\n================================================================');
     console.log(' FORENSIC SUMMARY & ATTRIBUTION ANALYSIS');

@@ -62,22 +62,38 @@ class AuthService {
       throw err;
     }
 
-    const existingUser = await prisma.user.findUnique({
-      where: { email: input.email.toLowerCase().trim() },
-    });
-    if (existingUser) {
-      const err: any = new Error('An account with this email address already exists.');
-      err.statusCode = 409;
-      err.code = 'EMAIL_EXISTS';
-      throw err;
-    }
-
+    const normalizedEmail = input.email.toLowerCase().trim();
     const passwordHash = await bcrypt.hash(input.password, 10);
 
     const result = await prisma.$transaction(async (tx) => {
+      // 1. Check for existing User account with this email
+      const existingUser = await tx.user.findUnique({
+        where: { email: normalizedEmail },
+      });
+      if (existingUser) {
+        const err: any = new Error('An account with this email address already exists.');
+        err.statusCode = 409;
+        err.code = 'EMAIL_EXISTS';
+        throw err;
+      }
+
+      // 2. Check for existing CRM Customer profile with this email
+      const existingCustomer = await tx.customer.findUnique({
+        where: { email: normalizedEmail },
+      });
+
+      // 3. If Customer profile exists and is already linked to a User account, reject
+      if (existingCustomer && existingCustomer.userId) {
+        const err: any = new Error('A customer profile associated with this email address is already linked to an account.');
+        err.statusCode = 409;
+        err.code = 'CUSTOMER_ALREADY_LINKED';
+        throw err;
+      }
+
+      // 4. Create the new User account with strictly Role.CUSTOMER
       const user = await tx.user.create({
         data: {
-          email: input.email.toLowerCase().trim(),
+          email: normalizedEmail,
           passwordHash,
           firstName: input.firstName.trim(),
           lastName: input.lastName.trim(),
@@ -86,21 +102,41 @@ class AuthService {
         },
       });
 
-      const customer = await tx.customer.create({
-        data: {
-          userId: user.id,
-          companyName: input.companyName.trim(),
-          contactName: `${input.firstName.trim()} ${input.lastName.trim()}`,
-          email: user.email,
-          phone: input.phone.trim(),
-          billingAddress: input.billingAddress.trim(),
-          city: input.city?.trim() || null,
-          state: input.state?.trim() || null,
-          country: input.country?.trim() || 'USA',
-          postalCode: input.postalCode?.trim() || null,
-          taxNumber: input.taxNumber?.trim() || null,
-        },
-      });
+      let customer;
+      if (existingCustomer) {
+        // 5. Link existing unlinked CRM Customer to the newly created User account
+        customer = await tx.customer.update({
+          where: { id: existingCustomer.id },
+          data: {
+            userId: user.id,
+            contactName: `${input.firstName.trim()} ${input.lastName.trim()}`,
+            phone: input.phone.trim() || existingCustomer.phone,
+            billingAddress: input.billingAddress.trim() || existingCustomer.billingAddress,
+            city: input.city?.trim() || existingCustomer.city,
+            state: input.state?.trim() || existingCustomer.state,
+            country: input.country?.trim() || existingCustomer.country,
+            postalCode: input.postalCode?.trim() || existingCustomer.postalCode,
+            taxNumber: input.taxNumber?.trim() || existingCustomer.taxNumber,
+          },
+        });
+      } else {
+        // 6. If no Customer profile exists, create new Customer record
+        customer = await tx.customer.create({
+          data: {
+            userId: user.id,
+            companyName: input.companyName.trim(),
+            contactName: `${input.firstName.trim()} ${input.lastName.trim()}`,
+            email: user.email,
+            phone: input.phone.trim(),
+            billingAddress: input.billingAddress.trim(),
+            city: input.city?.trim() || null,
+            state: input.state?.trim() || null,
+            country: input.country?.trim() || 'USA',
+            postalCode: input.postalCode?.trim() || null,
+            taxNumber: input.taxNumber?.trim() || null,
+          },
+        });
+      }
 
       return { user, customer };
     });

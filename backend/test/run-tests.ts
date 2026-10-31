@@ -71,6 +71,45 @@ async function runTestSuite() {
   }
   assert(duplicateRejected, 'Duplicate registration with same email is strictly rejected');
 
+  // Test CRM-to-Portal Customer Linking
+  const crmEmail = `crm.client.${Date.now()}@example.com`;
+  const crmCustomer = await prisma.customer.create({
+    data: {
+      companyName: 'Pre-existing Logistics Corp',
+      contactName: 'Staff Registered',
+      email: crmEmail,
+      phone: '+1 555-444-3333',
+      billingAddress: '400 Warehouse Row',
+    },
+  });
+
+  const crmLinkResult = await authService.registerCustomer({
+    email: crmEmail,
+    password: 'ValidCorporatePassword@2026',
+    firstName: 'Marcus',
+    lastName: 'Vance',
+    companyName: 'Pre-existing Logistics Corp',
+    phone: '+1 555-444-3333',
+    billingAddress: '400 Warehouse Row',
+  });
+  assert(crmLinkResult.user.customerId === crmCustomer.id, 'Successfully links pre-existing CRM customer to new portal user without duplicate record');
+
+  let alreadyLinkedRejected = false;
+  try {
+    await authService.registerCustomer({
+      email: crmEmail,
+      password: 'ValidCorporatePassword@2026',
+      firstName: 'Intruder',
+      lastName: 'Attempt',
+      companyName: 'Fake Corp',
+      phone: '+1 555-444-3333',
+      billingAddress: '400 Warehouse Row',
+    });
+  } catch (err: any) {
+    alreadyLinkedRejected = err.code === 'EMAIL_EXISTS' || err.code === 'CUSTOMER_ALREADY_LINKED';
+  }
+  assert(alreadyLinkedRejected, 'Rejects registration when customer profile is already linked');
+
   // Test Login
   const loginResult = await authService.login({
     email: testEmail,
