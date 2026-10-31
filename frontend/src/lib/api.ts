@@ -1,4 +1,4 @@
-const BASE_URL = '/api/v1';
+export const BASE_URL = (import.meta.env.VITE_API_URL || '/api/v1').replace(/\/$/, '');
 
 export class ApiError extends Error {
   code: string;
@@ -28,7 +28,8 @@ export async function apiRequest<T = any>(
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const response = await fetch(`${BASE_URL}${cleanEndpoint}`, {
     ...options,
     headers,
     credentials: 'include',

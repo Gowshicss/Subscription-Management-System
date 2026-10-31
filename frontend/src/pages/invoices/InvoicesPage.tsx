@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../../lib/api';
+import { api, BASE_URL } from '../../lib/api';
 import { Invoice, InvoiceStatus, PaymentMethod } from '../../types';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { Receipt, Download, CreditCard, Check, X, AlertTriangle, Eye } from 'lucide-react';
@@ -50,7 +50,7 @@ export const InvoicesPage: React.FC = () => {
 
   const handleDownloadPdf = async (id: string, invoiceNumber: string) => {
     try {
-      const response = await fetch(`/api/v1/invoices/${id}/pdf`, {
+      const response = await fetch(`${BASE_URL}/invoices/${id}/pdf`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
