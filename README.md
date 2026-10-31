@@ -30,7 +30,7 @@
 | **Database & ORM** | PostgreSQL + Prisma ORM | Relational schema with ACID transactions and strict `Decimal(12, 2)` monetary precision |
 | **Document Generation** | PDFKit | Real-time vector rendering of downloadable official tax invoices in `₹` |
 | **Background Processing**| Built-in Cron Worker | Automated recurring billing evaluation and due-cycle invoice generation |
-| **Containerization** | Docker & Docker Compose | Multi-container environment orchestration for turnkey evaluation |
+| **Containerization** | Docker & Docker Compose | Multi-container environment orchestration for turnkey evaluation .|
 
 ---
 
