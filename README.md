@@ -18,6 +18,8 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 
+live Demo link-"https://subscription-management-system-zeta-cyan.vercel.app/"
+
 | Layer | Technology | Details |
 |---|---|---|
 | **Frontend Framework** | React 19 + TypeScript | Component-driven Single Page Application with strict types |
