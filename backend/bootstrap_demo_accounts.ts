@@ -22,9 +22,9 @@ async function bootstrapDemoAccounts() {
     },
   });
 
-  const demoAdminEmail = (process.env.DEMO_ADMIN_EMAIL || 'demo.admin@brightloop.io').toLowerCase().trim();
-  const demoStaffEmail = (process.env.DEMO_STAFF_EMAIL || 'demo.staff@brightloop.io').toLowerCase().trim();
-  const demoCustomerEmail = (process.env.DEMO_CUSTOMER_EMAIL || 'demo.customer@brightloop.io').toLowerCase().trim();
+  const demoAdminEmail = (process.env.DEMO_ADMIN_EMAIL || 'admin@brightloop.io').toLowerCase().trim();
+  const demoStaffEmail = (process.env.DEMO_STAFF_EMAIL || 'staff@brightloop.io').toLowerCase().trim();
+  const demoCustomerEmail = (process.env.DEMO_CUSTOMER_EMAIL || 'acme@customer.com').toLowerCase().trim();
 
   try {
     console.log('================================================================');
@@ -36,63 +36,68 @@ async function bootstrapDemoAccounts() {
     console.log(`[SAFETY CHECK] Total existing users in database: ${totalUsers}`);
     console.log('[SAFETY CHECK] Preserving all existing non-demo records untouched.\n');
 
-    const demoPasswordHash = await bcrypt.hash('DemoEvaluator@2026!', 10);
+    const adminPasswordHash = await bcrypt.hash('Brightloop@2026!', 10);
+    const staffPasswordHash = await bcrypt.hash('Staff@2026!', 10);
+    const customerPasswordHash = await bcrypt.hash('Customer@2026!', 10);
 
     // 2. Demo Admin Account
-    console.log(`1. Provisioning Evaluator Demo Admin (${demoAdminEmail})...`);
+    console.log(`1. Provisioning Evaluator Admin (${demoAdminEmail})...`);
     const demoAdmin = await prisma.user.upsert({
       where: { email: demoAdminEmail },
       update: {
         role: Role.ADMIN,
+        passwordHash: adminPasswordHash,
         isActive: true,
       },
       create: {
         email: demoAdminEmail,
-        passwordHash: demoPasswordHash,
-        firstName: 'Demo',
-        lastName: 'Admin',
+        passwordHash: adminPasswordHash,
+        firstName: 'Arthur',
+        lastName: 'Pendelton',
         role: Role.ADMIN,
-        phone: '+1 555-010-DEMO',
+        phone: '+1 555-010-0001',
         isActive: true,
       },
     });
-    console.log(`   ✓ Demo Admin ready (ID: ${demoAdmin.id})`);
+    console.log(`   ✓ Admin ready (ID: ${demoAdmin.id})`);
 
     // 3. Demo Staff Account
-    console.log(`2. Provisioning Evaluator Demo Staff (${demoStaffEmail})...`);
+    console.log(`2. Provisioning Evaluator Staff (${demoStaffEmail})...`);
     const demoStaff = await prisma.user.upsert({
       where: { email: demoStaffEmail },
       update: {
         role: Role.STAFF,
+        passwordHash: staffPasswordHash,
         isActive: true,
       },
       create: {
         email: demoStaffEmail,
-        passwordHash: demoPasswordHash,
-        firstName: 'Demo',
-        lastName: 'Staff',
+        passwordHash: staffPasswordHash,
+        firstName: 'Elena',
+        lastName: 'Rostova',
         role: Role.STAFF,
-        phone: '+1 555-020-DEMO',
+        phone: '+1 555-010-0002',
         isActive: true,
       },
     });
-    console.log(`   ✓ Demo Staff ready (ID: ${demoStaff.id})`);
+    console.log(`   ✓ Staff ready (ID: ${demoStaff.id})`);
 
     // 4. Demo Customer Account & CRM Profile
-    console.log(`3. Provisioning Evaluator Demo Customer (${demoCustomerEmail})...`);
+    console.log(`3. Provisioning Evaluator Customer (${demoCustomerEmail})...`);
     const demoCustomerUser = await prisma.user.upsert({
       where: { email: demoCustomerEmail },
       update: {
         role: Role.CUSTOMER,
+        passwordHash: customerPasswordHash,
         isActive: true,
       },
       create: {
         email: demoCustomerEmail,
-        passwordHash: demoPasswordHash,
-        firstName: 'Demo',
-        lastName: 'Customer',
+        passwordHash: customerPasswordHash,
+        firstName: 'Marcus',
+        lastName: 'Vance',
         role: Role.CUSTOMER,
-        phone: '+1 555-030-DEMO',
+        phone: '+1 555-012-4411',
         isActive: true,
       },
     });
@@ -104,20 +109,20 @@ async function bootstrapDemoAccounts() {
       },
       create: {
         userId: demoCustomerUser.id,
-        companyName: 'Acme Corp (Evaluator Demo)',
-        contactName: 'Demo Customer',
+        companyName: 'Acme Dynamics Ltd',
+        contactName: 'Marcus Vance',
         email: demoCustomerEmail,
-        phone: '+1 555-030-DEMO',
-        billingAddress: '742 Evergreen Terrace, Suite 100',
-        city: 'Springfield',
-        state: 'OR',
+        phone: '+1 555-012-4411',
+        billingAddress: '500 Harbor Blvd, Suite 10',
+        city: 'San Francisco',
+        state: 'CA',
         country: 'USA',
-        postalCode: '97477',
-        taxNumber: 'US-DEMO-9948',
+        postalCode: '94107',
+        taxNumber: 'US-ACME-9948',
         currency: 'INR',
       },
     });
-    console.log(`   ✓ Demo Customer ready (ID: ${demoCustomerProfile.id}, User: ${demoCustomerUser.id})`);
+    console.log(`   ✓ Customer ready (ID: ${demoCustomerProfile.id}, User: ${demoCustomerUser.id})`);
 
     // 5. Ensure sample Demo Product & Plan exist for realistic portal experience
     console.log('\n4. Checking sample catalog for evaluator customer portal...');

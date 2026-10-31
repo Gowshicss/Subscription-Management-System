@@ -137,9 +137,9 @@ try {
 
     Write-Host "`n[STEP 2/2] Provisioning Evaluator Demo Accounts" -ForegroundColor Cyan
     Write-Host "This will safely set up:" -ForegroundColor Gray
-    Write-Host "  * demo.admin@brightloop.io    (Admin Role)" -ForegroundColor Gray
-    Write-Host "  * demo.staff@brightloop.io    (Staff Role)" -ForegroundColor Gray
-    Write-Host "  * demo.customer@brightloop.io (Customer Role with sample portal data)" -ForegroundColor Gray
+    Write-Host "  * admin@brightloop.io    (Admin Role)" -ForegroundColor Gray
+    Write-Host "  * staff@brightloop.io    (Staff Role)" -ForegroundColor Gray
+    Write-Host "  * acme@customer.com      (Customer Role with sample portal data)" -ForegroundColor Gray
 
     # Inject temporary environment variables in process memory
     $env:DATABASE_URL = $resDirect.CleanedUrl

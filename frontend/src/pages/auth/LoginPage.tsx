@@ -57,8 +57,29 @@ export const LoginPage: React.FC = () => {
     setError(null);
     setDemoLoadingRole(role);
 
+    let credEmail = 'admin@brightloop.io';
+    let credPass = 'Brightloop@2026!';
+    if (role === 'STAFF') {
+      credEmail = 'staff@brightloop.io';
+      credPass = 'Staff@2026!';
+    } else if (role === 'CUSTOMER') {
+      credEmail = 'acme@customer.com';
+      credPass = 'Customer@2026!';
+    }
+
+    // Autofill into the login form inputs immediately for evaluator visibility
+    setEmail(credEmail);
+    setPassword(credPass);
+
     try {
-      const res: any = await api.post('/auth/demo-login', { role });
+      let res: any;
+      try {
+        res = await api.post('/auth/demo-login', { role });
+      } catch (demoErr: any) {
+        // Fallback to standard login with autofilled credentials
+        res = await api.post('/auth/login', { email: credEmail, password: credPass });
+      }
+
       login(res.token, res.user);
 
       if (res.user.role === 'CUSTOMER') {

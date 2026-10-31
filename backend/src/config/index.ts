@@ -9,9 +9,9 @@ export const config = {
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
   enableDemoLogin: process.env.ENABLE_DEMO_LOGIN !== undefined ? process.env.ENABLE_DEMO_LOGIN === 'true' : process.env.NODE_ENV !== 'production',
   demoAccounts: {
-    adminEmail: (process.env.DEMO_ADMIN_EMAIL || 'demo.admin@brightloop.io').toLowerCase().trim(),
-    staffEmail: (process.env.DEMO_STAFF_EMAIL || 'demo.staff@brightloop.io').toLowerCase().trim(),
-    customerEmail: (process.env.DEMO_CUSTOMER_EMAIL || 'demo.customer@brightloop.io').toLowerCase().trim(),
+    adminEmail: (process.env.DEMO_ADMIN_EMAIL || 'admin@brightloop.io').toLowerCase().trim(),
+    staffEmail: (process.env.DEMO_STAFF_EMAIL || 'staff@brightloop.io').toLowerCase().trim(),
+    customerEmail: (process.env.DEMO_CUSTOMER_EMAIL || 'acme@customer.com').toLowerCase().trim(),
   },
   smtp: {
     host: process.env.SMTP_HOST || 'localhost',
