@@ -251,6 +251,8 @@ try {
     Write-Host "Prisma migrate deploy exit code: $prismaExitCode" -ForegroundColor $(if ($prismaExitCode -eq 0) { "Green" } else { "Red" })
     if ($prismaExitCode -eq 0) {
         Write-Host "Migration 0_init deployed successfully to Neon PostgreSQL!" -ForegroundColor Green
+        Write-Host "`nRunning automated post-deployment verification of all schema objects..." -ForegroundColor Cyan
+        & npx tsx verify_post_deploy.ts
     } else {
         Write-Host "Migration deployment encountered an error (exit code $prismaExitCode)." -ForegroundColor Red
     }
