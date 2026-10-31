@@ -10,55 +10,63 @@
   }
 }
 
-/* Modern Clean SaaS UI Utility Classes (Inspired by Reference Style) */
-.brutalist-card {
-  @apply bg-white border border-border rounded-2xl shadow-xs transition-all duration-200;
+@layer utilities {
+  .shadow-xs {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  }
 }
 
-.brutalist-card:hover {
-  @apply shadow-sm;
-}
+@layer components {
+  /* Modern Clean SaaS UI Utility Classes (Inspired by Reference Style) */
+  .brutalist-card {
+    @apply bg-white border border-border rounded-2xl shadow-sm transition-all duration-200;
+  }
 
-.brutalist-table {
-  @apply w-full text-left border-collapse;
-}
+  .brutalist-card:hover {
+    @apply shadow-md;
+  }
 
-.brutalist-table th {
-  @apply px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-muted bg-white border-b border-border;
-}
+  .brutalist-table {
+    @apply w-full text-left border-collapse;
+  }
 
-.brutalist-table td {
-  @apply px-4 py-3.5 text-xs text-charcoal border-b border-border-subtle transition-colors;
-}
+  .brutalist-table th {
+    @apply px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-muted bg-white border-b border-border;
+  }
 
-.brutalist-table tbody tr:hover td {
-  @apply bg-[#FAF9F7];
-}
+  .brutalist-table td {
+    @apply px-4 py-3.5 text-xs text-charcoal border-b border-border-subtle transition-colors;
+  }
 
-.brutalist-table tr:last-child td {
-  @apply border-b-0;
-}
+  .brutalist-table tbody tr:hover td {
+    @apply bg-[#FAF9F7];
+  }
 
-.brutalist-btn-primary {
-  @apply bg-plum text-white font-medium px-4 py-2 rounded-xl hover:bg-plum-light active:bg-plum-dark active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
-}
+  .brutalist-table tr:last-child td {
+    @apply border-b-0;
+  }
 
-.brutalist-btn-secondary {
-  @apply bg-white text-charcoal font-medium px-4 py-2 rounded-xl border border-border hover:bg-[#F6F5F3] active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
-}
+  .brutalist-btn-primary {
+    @apply bg-plum text-white font-medium px-4 py-2 rounded-xl hover:bg-plum-light active:bg-plum-dark active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-sm;
+  }
 
-.brutalist-btn-teal {
-  @apply bg-teal-accent text-white font-medium px-4 py-2 rounded-xl hover:bg-teal-dark active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
-}
+  .brutalist-btn-secondary {
+    @apply bg-white text-charcoal font-medium px-4 py-2 rounded-xl border border-border hover:bg-[#F6F5F3] active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-sm;
+  }
 
-.brutalist-btn-danger {
-  @apply bg-white text-red-600 font-medium px-4 py-2 rounded-xl border border-red-200 hover:bg-red-50 active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
-}
+  .brutalist-btn-teal {
+    @apply bg-teal-accent text-white font-medium px-4 py-2 rounded-xl hover:bg-teal-dark active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-sm;
+  }
 
-.brutalist-input {
-  @apply w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs text-charcoal placeholder-[#9E9B9F] focus:outline-none focus:ring-2 focus:ring-plum/20 focus:border-plum transition-all shadow-xs;
-}
+  .brutalist-btn-danger {
+    @apply bg-white text-red-600 font-medium px-4 py-2 rounded-xl border border-red-200 hover:bg-red-50 active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-sm;
+  }
 
-.brutalist-badge {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase;
+  .brutalist-input {
+    @apply w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs text-charcoal placeholder-[#9E9B9F] focus:outline-none focus:ring-2 focus:ring-plum/20 focus:border-plum transition-all shadow-sm;
+  }
+
+  .brutalist-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase;
+  }
 }
