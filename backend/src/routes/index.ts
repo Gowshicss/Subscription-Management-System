@@ -18,6 +18,15 @@ import { SettingsController } from '../controllers/settings.controller';
 
 const router = Router();
 
+// Health check endpoint on router level (/api/v1/health)
+router.get('/health', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'brightloop-backend',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // ==========================================
 // 1. PUBLIC AUTHENTICATION & PASSWORD RESET
 // ==========================================

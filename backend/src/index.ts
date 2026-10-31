@@ -39,15 +39,26 @@ app.use(morgan(config.env === 'production' ? 'combined' : 'dev'));
 // Lightweight Health Check Endpoint (usable by Render / monitoring)
 const healthHandler = (_req: express.Request, res: express.Response) => {
   res.status(200).json({
-    status: 'healthy',
-    system: 'Brightloop Subscription Management System API',
+    status: 'ok',
+    service: 'brightloop-backend',
     environment: config.env,
     uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
   });
 };
 
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    service: 'brightloop-backend',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.get('/health', healthHandler);
+app.get('/health/', healthHandler);
+app.get('/api/v1/health/', healthHandler);
 app.get('/api/v1/health', healthHandler);
 
 // Mount API v1 router
