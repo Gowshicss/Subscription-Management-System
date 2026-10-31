@@ -1,0 +1,24 @@
+{
+  "name": "brightloop-subscription-management-system",
+  "version": "1.0.0",
+  "description": "Production-grade Subscription Management System for Brightloop Software (Odoo x Make-A-Ton 9.0 Kochi Hackathon 2026)",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "test": "cd backend && npm test",
+    "test:perf": "cd backend && npm run test:perf",
+    "seed": "cd backend && npm run prisma:seed"
+  },
+  "keywords": [
+    "odoo",
+    "subscription-management",
+    "billing-system",
+    "hackathon",
+    "postgresql",
+    "react",
+    "typescript"
+  ],
+  "author": "Brightloop Development Team",
+  "license": "MIT"
+}

@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-charcoal font-sans antialiased;
+    color: #252329;
+    background-color: #FAFAFA;
+  }
+}
+
+/* Refined Corporate Brutalism UI Utility Classes */
+.brutalist-card {
+  @apply bg-white border border-border shadow-brutal-sm rounded-md transition-all;
+}
+
+.brutalist-card:hover {
+  @apply shadow-brutal;
+}
+
+.brutalist-table th {
+  @apply px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-charcoal bg-surface-secondary border-b border-border;
+}
+
+.brutalist-table td {
+  @apply px-4 py-3 text-sm text-charcoal border-b border-border;
+}
+
+.brutalist-table tr:last-child td {
+  @apply border-b-0;
+}
+
+.brutalist-btn-primary {
+  @apply bg-plum text-white font-semibold px-4 py-2 rounded border border-plum hover:bg-plum-light active:bg-plum-dark transition-colors inline-flex items-center gap-2 text-sm;
+}
+
+.brutalist-btn-secondary {
+  @apply bg-white text-charcoal font-semibold px-4 py-2 rounded border border-border hover:bg-surface-secondary transition-colors inline-flex items-center gap-2 text-sm;
+}
+
+.brutalist-btn-teal {
+  @apply bg-teal-accent text-white font-semibold px-4 py-2 rounded border border-teal-accent hover:bg-teal-dark transition-colors inline-flex items-center gap-2 text-sm;
+}
+
+.brutalist-btn-danger {
+  @apply bg-white text-red-600 font-semibold px-4 py-2 rounded border border-red-200 hover:bg-red-50 transition-colors inline-flex items-center gap-2 text-sm;
+}
+
+.brutalist-input {
+  @apply w-full px-3 py-2 bg-white border border-border rounded text-sm text-charcoal placeholder-muted focus:outline-none focus:ring-1 focus:ring-plum focus:border-plum transition-all;
+}
+
+.brutalist-badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold tracking-wide uppercase;
+}
