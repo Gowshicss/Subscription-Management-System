@@ -606,11 +606,11 @@ Developed for the **Odoo x Make-A-Ton 9.0 Kochi Hackathon 2026**:
 
 | Team Member | Role | Contribution Area |
 |---|---|---|
-| **Mowsikan H** | Team Leader & Full-Stack Architect | System Architecture, Database Design, Billing Engine |
-| **Poovendran Kalimuthu** | Frontend Engineer | UI Component Architecture, Design System Implementation |
-| **Naren Selvan** | Backend Engineer | API Routes, Controller Logic, RBAC Authentication |
-| **Indiresh Kumar R** | Database & QA Engineer | PostgreSQL Schema, Migrations, Integration Test Suite |
-| **Tanu Sree** | Product Designer & Documentation | Workflow Analysis, User Experience, API Specifications |
+| **Tanu Sree** | Team Leader & Full-Stack Architect | System Architecture, Database Design, Billing Engine |
+| **Gowshic S S** | Frontend Engineer | UI Component Architecture, Design System Implementation |
+| **Sanmuga Priya** | Backend Engineer | API Routes, Controller Logic, RBAC Authentication |
+| **Nandhana** | Database & QA Engineer | PostgreSQL Schema, Migrations, Integration Test Suite |
+
 
 ---
 
