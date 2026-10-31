@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { authService } from '../services/auth.service';
 import { prisma } from '../lib/prisma';
 import { Role } from '@prisma/client';
+import { config } from '../config';
 
 export class AuthController {
   static async register(req: Request, res: Response, next: NextFunction) {
@@ -131,6 +132,36 @@ export class AuthController {
       res.json({
         success: true,
         data: staffList,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async demoStatus(_req: Request, res: Response) {
+    res.json({
+      success: true,
+      data: {
+        enabled: config.enableDemoLogin,
+        roles: ['ADMIN', 'STAFF', 'CUSTOMER'],
+      },
+    });
+  }
+
+  static async demoLogin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { role } = req.body;
+      const result = await authService.demoLogin(role);
+      res.cookie('token', result.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+      res.json({
+        success: true,
+        data: result,
+        message: `Quick-login successful as ${role}.`,
       });
     } catch (err) {
       next(err);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../lib/api';
@@ -9,11 +9,30 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [demoEnabled, setDemoEnabled] = useState(true);
+  const [demoLoadingRole, setDemoLoadingRole] = useState<'ADMIN' | 'STAFF' | 'CUSTOMER' | null>(null);
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    let isMounted = true;
+    api.get<{ enabled: boolean; roles: string[] }>('/auth/demo-status')
+      .then((res: any) => {
+        if (isMounted) {
+          setDemoEnabled(res.enabled ?? true);
+        }
+      })
+      .catch(() => {
+        // Fallback to true for testing
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading || demoLoadingRole) return;
     setError(null);
     setLoading(true);
 
@@ -33,10 +52,25 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const fillDemo = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
+  const handleQuickLogin = async (role: 'ADMIN' | 'STAFF' | 'CUSTOMER') => {
+    if (loading || demoLoadingRole) return;
     setError(null);
+    setDemoLoadingRole(role);
+
+    try {
+      const res: any = await api.post('/auth/demo-login', { role });
+      login(res.token, res.user);
+
+      if (res.user.role === 'CUSTOMER') {
+        navigate('/portal');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (err: any) {
+      setError(err.message || `Failed to authenticate as ${role}.`);
+    } finally {
+      setDemoLoadingRole(null);
+    }
   };
 
   return (
@@ -169,34 +203,58 @@ export const LoginPage: React.FC = () => {
             </form>
 
             {/* Quick Demo Credentials for Evaluators */}
-            <div className="mt-6 pt-5 border-t border-border">
-              <span className="text-[10px] font-bold text-muted uppercase tracking-wider block mb-2">
-                Hackathon Quick-Login:
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  onClick={() => fillDemo('admin@brightloop.io', 'Brightloop@2026!')}
-                  className="px-2.5 py-1.5 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center"
-                >
-                  Admin
-                </button>
-                <button
-                  type="button"
-                  onClick={() => fillDemo('staff@brightloop.io', 'Staff@2026!')}
-                  className="px-2.5 py-1.5 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center"
-                >
-                  Staff
-                </button>
-                <button
-                  type="button"
-                  onClick={() => fillDemo('acme@customer.com', 'Customer@2026!')}
-                  className="px-2.5 py-1.5 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center"
-                >
-                  Customer
-                </button>
+            {demoEnabled && (
+              <div className="mt-6 pt-5 border-t border-border">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-bold text-muted uppercase tracking-wider block">
+                    Hackathon Quick-Login:
+                  </span>
+                  {demoLoadingRole && (
+                    <span className="text-[10px] text-plum font-semibold animate-pulse">
+                      Authenticating {demoLoadingRole}...
+                    </span>
+                  )}
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    disabled={loading || demoLoadingRole !== null}
+                    onClick={() => handleQuickLogin('ADMIN')}
+                    className="px-2.5 py-2 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center disabled:opacity-50 flex items-center justify-center gap-1.5"
+                  >
+                    {demoLoadingRole === 'ADMIN' ? (
+                      <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
+                    ) : null}
+                    <span>Admin</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={loading || demoLoadingRole !== null}
+                    onClick={() => handleQuickLogin('STAFF')}
+                    className="px-2.5 py-2 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center disabled:opacity-50 flex items-center justify-center gap-1.5"
+                  >
+                    {demoLoadingRole === 'STAFF' ? (
+                      <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
+                    ) : null}
+                    <span>Staff</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={loading || demoLoadingRole !== null}
+                    onClick={() => handleQuickLogin('CUSTOMER')}
+                    className="px-2.5 py-2 text-xs font-semibold bg-[#FAF9F7] border border-border rounded-lg hover:border-plum hover:text-plum transition-all text-center disabled:opacity-50 flex items-center justify-center gap-1.5"
+                  >
+                    {demoLoadingRole === 'CUSTOMER' ? (
+                      <span className="w-3 h-3 border-2 border-plum border-t-transparent rounded-full animate-spin" />
+                    ) : null}
+                    <span>Customer</span>
+                  </button>
+                </div>
+                <p className="text-[10px] text-muted mt-2 text-center">
+                  One-click evaluator access with pre-configured demo profiles
+                </p>
               </div>
-            </div>
+            )}
           </div>
 
           <div className="mt-6 pt-4 border-t border-border-subtle text-center">

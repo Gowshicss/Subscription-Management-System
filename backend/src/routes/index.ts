@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate, requireRole } from '../middleware/auth';
+import { authenticate, requireRole, restrictDemo } from '../middleware/auth';
 import { Role } from '@prisma/client';
 
 import { AuthController } from '../controllers/auth.controller';
@@ -35,6 +35,8 @@ router.post('/auth/login', AuthController.login);
 router.post('/auth/logout', AuthController.logout);
 router.post('/auth/forgot-password', AuthController.forgotPassword);
 router.post('/auth/reset-password', AuthController.resetPassword);
+router.get('/auth/demo-status', AuthController.demoStatus);
+router.post('/auth/demo-login', AuthController.demoLogin);
 
 // Public / Authenticated catalog visibility
 router.get('/products', ProductController.list);
@@ -51,7 +53,7 @@ router.use(authenticate);
 // ==========================================
 router.get('/auth/me', AuthController.getMe);
 router.get('/users/staff', requireRole(Role.ADMIN), AuthController.listStaff);
-router.post('/users/staff', requireRole(Role.ADMIN), AuthController.createStaff);
+router.post('/users/staff', requireRole(Role.ADMIN), restrictDemo, AuthController.createStaff);
 
 // ==========================================
 // 3. CUSTOMER MANAGEMENT
@@ -66,7 +68,7 @@ router.put('/customers/:id', CustomerController.update);
 // ==========================================
 router.post('/products', requireRole(Role.ADMIN), ProductController.create);
 router.put('/products/:id', requireRole(Role.ADMIN), ProductController.update);
-router.delete('/products/:id', requireRole(Role.ADMIN), ProductController.archive);
+router.delete('/products/:id', requireRole(Role.ADMIN), restrictDemo, ProductController.archive);
 router.post('/products/:id/variants', requireRole(Role.ADMIN), ProductController.createVariant);
 router.put('/products/:id/variants/:variantId', requireRole(Role.ADMIN), ProductController.updateVariant);
 
@@ -75,7 +77,7 @@ router.put('/products/:id/variants/:variantId', requireRole(Role.ADMIN), Product
 // ==========================================
 router.post('/plans', requireRole(Role.ADMIN), PlanController.create);
 router.put('/plans/:id', requireRole(Role.ADMIN), PlanController.update);
-router.delete('/plans/:id', requireRole(Role.ADMIN), PlanController.toggleActive);
+router.delete('/plans/:id', requireRole(Role.ADMIN), restrictDemo, PlanController.toggleActive);
 
 // ==========================================
 // 6. TAX RULES & DISCOUNTS (ADMIN ONLY)
@@ -136,7 +138,7 @@ router.post('/payments', requireRole(Role.ADMIN, Role.STAFF), PaymentController.
 // 11. DASHBOARD & BUSINESS SETTINGS
 // ==========================================
 router.get('/dashboard/summary', DashboardController.getSummary);
-router.put('/settings', requireRole(Role.ADMIN), SettingsController.update);
+router.put('/settings', requireRole(Role.ADMIN), restrictDemo, SettingsController.update);
 
 export default router;
 

@@ -345,6 +345,11 @@ class AuthService {
       err.code = 'NOT_FOUND';
       throw err;
     }
+    const isDemo = Boolean(
+      user.email === config.demoAccounts.adminEmail ||
+      user.email === config.demoAccounts.staffEmail ||
+      user.email === config.demoAccounts.customerEmail
+    );
     return {
       id: user.id,
       email: user.email,
@@ -353,6 +358,78 @@ class AuthService {
       role: user.role,
       phone: user.phone,
       customer: user.customer,
+      isDemo,
+    };
+  }
+
+  async demoLogin(role: Role) {
+    if (!config.enableDemoLogin) {
+      const err: any = new Error('Demo quick-login is disabled on this server.');
+      err.statusCode = 403;
+      err.code = 'DEMO_DISABLED';
+      throw err;
+    }
+
+    let targetEmail: string;
+    if (role === Role.ADMIN) {
+      targetEmail = config.demoAccounts.adminEmail;
+    } else if (role === Role.STAFF) {
+      targetEmail = config.demoAccounts.staffEmail;
+    } else if (role === Role.CUSTOMER) {
+      targetEmail = config.demoAccounts.customerEmail;
+    } else {
+      const err: any = new Error('Invalid demo role requested. Allowed: ADMIN, STAFF, CUSTOMER.');
+      err.statusCode = 400;
+      err.code = 'INVALID_ROLE';
+      throw err;
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: targetEmail },
+      include: { customer: true },
+    });
+
+    if (!user) {
+      const err: any = new Error(
+        `Demo ${role.toLowerCase()} account (${targetEmail}) has not been provisioned yet. Please run the demo setup script.`
+      );
+      err.statusCode = 404;
+      err.code = 'DEMO_ACCOUNT_NOT_FOUND';
+      throw err;
+    }
+
+    if (!user.isActive) {
+      const err: any = new Error('This demo evaluator account has been disabled.');
+      err.statusCode = 403;
+      err.code = 'ACCOUNT_DISABLED';
+      throw err;
+    }
+
+    if (user.role !== role) {
+      const err: any = new Error(`Role mismatch: expected ${role}, but found ${user.role}.`);
+      err.statusCode = 403;
+      err.code = 'ROLE_MISMATCH';
+      throw err;
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role, isDemo: true },
+      config.jwtSecret,
+      { expiresIn: config.jwtExpiresIn as any }
+    );
+
+    return {
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        customerId: user.customer?.id || null,
+        companyName: user.customer?.companyName || null,
+        isDemo: true,
+      },
     };
   }
 }

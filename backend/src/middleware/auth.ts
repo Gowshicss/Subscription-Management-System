@@ -11,6 +11,7 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   customerId?: string | null;
+  isDemo?: boolean;
 }
 
 declare global {
@@ -41,7 +42,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
       return;
     }
 
-    const decoded = jwt.verify(token, config.jwtSecret) as { id: string };
+    const decoded = jwt.verify(token, config.jwtSecret) as { id: string; isDemo?: boolean };
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       include: { customer: { select: { id: true } } },
@@ -55,6 +56,13 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
       return;
     }
 
+    const isDemo = Boolean(
+      decoded.isDemo ||
+      user.email === config.demoAccounts.adminEmail ||
+      user.email === config.demoAccounts.staffEmail ||
+      user.email === config.demoAccounts.customerEmail
+    );
+
     req.user = {
       id: user.id,
       email: user.email,
@@ -62,6 +70,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
       firstName: user.firstName,
       lastName: user.lastName,
       customerId: user.customer?.id || null,
+      isDemo,
     };
 
     next();
@@ -96,5 +105,19 @@ export function requireRole(...allowedRoles: Role[]) {
 
     next();
   };
+}
+
+export function restrictDemo(req: Request, res: Response, next: NextFunction): void {
+  if (req.user?.isDemo) {
+    res.status(403).json({
+      success: false,
+      error: {
+        code: 'DEMO_RESTRICTED',
+        message: 'This operation is restricted in demo evaluator mode to preserve system data integrity.',
+      },
+    });
+    return;
+  }
+  next();
 }
 
