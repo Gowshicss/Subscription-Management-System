@@ -8,10 +8,10 @@ export default {
     extend: {
       colors: {
         plum: {
-          DEFAULT: '#4B2D47',
-          deep: '#4B2D47',
-          light: '#5D3858',
-          dark: '#382235',
+          DEFAULT: '#5E3A54',
+          deep: '#5E3A54',
+          light: '#724867',
+          dark: '#4B2D43',
         },
         purple: {
           odoo: '#79516F',
@@ -19,26 +19,27 @@ export default {
           light: '#916586',
         },
         teal: {
-          soft: '#CDECEF',
+          soft: '#E8F6F7',
           accent: '#259DA5',
           dark: '#1C7980',
         },
         charcoal: {
-          DEFAULT: '#252329',
+          DEFAULT: '#1F1E22',
           light: '#3C3942',
         },
         surface: {
           DEFAULT: '#FFFFFF',
-          secondary: '#F4F4F5',
+          secondary: '#FAF9F6',
+          muted: '#F4F3F1',
         },
         border: {
-          DEFAULT: '#E4E1E5',
-          subtle: '#ECE9ED',
-          dark: '#CBC6CC',
+          DEFAULT: '#E7E5E4',
+          subtle: '#F0EFF1',
+          dark: '#D6D3D1',
         },
         muted: {
-          DEFAULT: '#77727A',
-          foreground: '#77727A',
+          DEFAULT: '#737078',
+          foreground: '#737078',
         },
       },
       fontFamily: {
@@ -46,9 +47,14 @@ export default {
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       boxShadow: {
-        brutal: '2px 2px 0px 0px rgba(75, 45, 71, 0.15)',
-        'brutal-sm': '1px 1px 0px 0px rgba(75, 45, 71, 0.1)',
-        'brutal-lg': '4px 4px 0px 0px rgba(75, 45, 71, 0.2)',
+        xs: '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+        sm: '0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06)',
+        md: '0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
+        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.05)',
+        xl: '0 20px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
+        brutal: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
+        'brutal-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+        'brutal-lg': '0 4px 12px 0 rgba(0, 0, 0, 0.08)',
       },
     },
   },

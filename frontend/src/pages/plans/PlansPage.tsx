@@ -56,9 +56,9 @@ export const PlansPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            SUBSCRIPTION PLANS
+            Subscription Plans
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Configure recurring billing cadences, pricing tiers, auto-closure rules and customer self-service permissions
           </p>
         </div>
@@ -79,7 +79,7 @@ export const PlansPage: React.FC = () => {
           (plans || []).map((plan) => (
             <div
               key={plan.id}
-              className={`brutalist-card p-5 bg-white border flex flex-col justify-between ${
+              className={`bg-white rounded-2xl border p-5 shadow-xs flex flex-col justify-between ${
                 plan.isActive ? 'border-border' : 'border-dashed border-gray-300 opacity-60'
               }`}
             >
@@ -87,7 +87,7 @@ export const PlansPage: React.FC = () => {
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="text-sm font-bold text-charcoal">{plan.name}</h3>
-                    <span className="brutalist-badge bg-surface-secondary text-plum border border-border mt-1">
+                    <span className="rounded-full text-[10px] font-bold px-2.5 py-0.5 bg-[#FAF9F7] text-plum border border-border mt-1 inline-block">
                       {plan.billingFrequency}
                     </span>
                   </div>

@@ -49,23 +49,23 @@ export const SubscriptionsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            SUBSCRIPTION MANAGEMENT
+            Subscriptions Management
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Track active customer contracts, automated recurring billing schedules, and manage lifecycle state transitions
           </p>
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 self-start sm:self-auto bg-white p-1 border border-border rounded text-xs">
+        <div className="flex items-center gap-1 self-start sm:self-auto bg-white p-1.5 border border-border rounded-2xl shadow-xs text-xs">
           {['', 'ACTIVE', 'PAUSED', 'CONFIRMED', 'CLOSED'].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-2.5 py-1 rounded font-semibold transition-colors ${
+              className={`px-3 py-1.5 rounded-xl font-medium text-xs transition-colors ${
                 statusFilter === st
-                  ? 'bg-plum text-white'
-                  : 'text-muted hover:text-charcoal hover:bg-surface-secondary'
+                  ? 'bg-plum text-white shadow-xs'
+                  : 'text-muted hover:text-charcoal hover:bg-[#FAF9F7]'
               }`}
             >
               {st || 'All Subscriptions'}
@@ -75,7 +75,7 @@ export const SubscriptionsPage: React.FC = () => {
       </div>
 
       {/* Subscriptions Table */}
-      <div className="brutalist-card bg-white border border-border overflow-hidden">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full brutalist-table">
             <thead>

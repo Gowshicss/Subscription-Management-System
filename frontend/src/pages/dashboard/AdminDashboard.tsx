@@ -58,9 +58,9 @@ export const AdminDashboard: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            FINANCIAL & OPERATIONAL DASHBOARD
+            Financial & Operations Dashboard
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Real-time business performance derived from persistent database records
           </p>
         </div>
@@ -148,36 +148,39 @@ export const AdminDashboard: React.FC = () => {
       {/* Visual Analytics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Monthly Revenue vs Billing Demand */}
-        <div className="lg:col-span-2 brutalist-card p-5 bg-white border border-border">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-border p-5 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-charcoal uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-charcoal">
                 Revenue & Invoicing Trend
               </h3>
               <p className="text-xs text-muted">Comparison of invoiced total vs realized revenue</p>
             </div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-plum bg-[#FAF9F7] px-2.5 py-1 rounded-full border border-border">
+              Live Data
+            </span>
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={charts.revenueTrend || []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E4E1E5" />
-                <XAxis dataKey="month" stroke="#77727A" fontSize={11} />
-                <YAxis stroke="#77727A" fontSize={11} tickFormatter={(val) => `₹${val}`} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F0EFF1" vertical={false} />
+                <XAxis dataKey="month" stroke="#77727A" fontSize={11} tickLine={false} />
+                <YAxis stroke="#77727A" fontSize={11} tickFormatter={(val) => `₹${val}`} tickLine={false} axisLine={false} />
                 <Tooltip
                   formatter={(val: any) => [`₹${Number(val).toFixed(2)}`, '']}
-                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E4E1E5', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderRadius: '12px', borderColor: '#E7E5E4', fontSize: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                <Bar dataKey="revenue" name="Revenue Cleared" fill="#4B2D47" radius={[2, 2, 0, 0]} />
-                <Bar dataKey="invoices" name="Amount Invoiced" fill="#259DA5" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="revenue" name="Revenue Cleared" fill="#5E3A54" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="invoices" name="Amount Invoiced" fill="#259DA5" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Subscription Distribution */}
-        <div className="brutalist-card p-5 bg-white border border-border flex flex-col">
-          <h3 className="text-sm font-bold text-charcoal uppercase tracking-wider mb-1">
+        <div className="bg-white rounded-2xl border border-border p-5 shadow-xs flex flex-col">
+          <h3 className="text-sm font-bold text-charcoal mb-0.5">
             Subscription Status Distribution
           </h3>
           <p className="text-xs text-muted mb-4">Current subscription lifecycle breakdown</p>
@@ -190,7 +193,9 @@ export const AdminDashboard: React.FC = () => {
                   nameKey="status"
                   cx="50%"
                   cy="50%"
+                  innerRadius={50}
                   outerRadius={75}
+                  paddingAngle={3}
                   label={({ status, count }) => `${status}: ${count}`}
                   labelLine={false}
                 >
@@ -208,7 +213,7 @@ export const AdminDashboard: React.FC = () => {
       {/* Recent Ledger Tables */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Invoices */}
-        <div className="brutalist-card bg-white border border-border overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
           <div className="p-4 border-b border-border flex items-center justify-between">
             <h3 className="text-xs font-bold text-charcoal uppercase tracking-wider">
               Recent Invoices Issued
@@ -253,7 +258,7 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Recent Payments */}
-        <div className="brutalist-card bg-white border border-border overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
           <div className="p-4 border-b border-border flex items-center justify-between">
             <h3 className="text-xs font-bold text-charcoal uppercase tracking-wider">
               Recent Cleared Payments

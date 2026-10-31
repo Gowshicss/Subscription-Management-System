@@ -4,27 +4,35 @@
 
 @layer base {
   body {
-    @apply bg-surface text-charcoal font-sans antialiased;
-    color: #252329;
-    background-color: #FAFAFA;
+    @apply text-charcoal font-sans antialiased;
+    color: #1F1E22;
+    background-color: #FAF9F6;
   }
 }
 
-/* Refined Corporate Brutalism UI Utility Classes */
+/* Modern Clean SaaS UI Utility Classes (Inspired by Reference Style) */
 .brutalist-card {
-  @apply bg-white border border-border shadow-brutal-sm rounded-md transition-all;
+  @apply bg-white border border-border rounded-2xl shadow-xs transition-all duration-200;
 }
 
 .brutalist-card:hover {
-  @apply shadow-brutal;
+  @apply shadow-sm;
+}
+
+.brutalist-table {
+  @apply w-full text-left border-collapse;
 }
 
 .brutalist-table th {
-  @apply px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-charcoal bg-surface-secondary border-b border-border;
+  @apply px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-muted bg-white border-b border-border;
 }
 
 .brutalist-table td {
-  @apply px-4 py-3 text-sm text-charcoal border-b border-border;
+  @apply px-4 py-3.5 text-xs text-charcoal border-b border-border-subtle transition-colors;
+}
+
+.brutalist-table tbody tr:hover td {
+  @apply bg-[#FAF9F7];
 }
 
 .brutalist-table tr:last-child td {
@@ -32,26 +40,25 @@
 }
 
 .brutalist-btn-primary {
-  @apply bg-plum text-white font-semibold px-4 py-2 rounded border border-plum hover:bg-plum-light active:bg-plum-dark transition-colors inline-flex items-center gap-2 text-sm;
+  @apply bg-plum text-white font-medium px-4 py-2 rounded-xl hover:bg-plum-light active:bg-plum-dark active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
 }
 
 .brutalist-btn-secondary {
-  @apply bg-white text-charcoal font-semibold px-4 py-2 rounded border border-border hover:bg-surface-secondary transition-colors inline-flex items-center gap-2 text-sm;
+  @apply bg-white text-charcoal font-medium px-4 py-2 rounded-xl border border-border hover:bg-[#F6F5F3] active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
 }
 
 .brutalist-btn-teal {
-  @apply bg-teal-accent text-white font-semibold px-4 py-2 rounded border border-teal-accent hover:bg-teal-dark transition-colors inline-flex items-center gap-2 text-sm;
+  @apply bg-teal-accent text-white font-medium px-4 py-2 rounded-xl hover:bg-teal-dark active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
 }
 
 .brutalist-btn-danger {
-  @apply bg-white text-red-600 font-semibold px-4 py-2 rounded border border-red-200 hover:bg-red-50 transition-colors inline-flex items-center gap-2 text-sm;
+  @apply bg-white text-red-600 font-medium px-4 py-2 rounded-xl border border-red-200 hover:bg-red-50 active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 text-xs shadow-xs;
 }
 
 .brutalist-input {
-  @apply w-full px-3 py-2 bg-white border border-border rounded text-sm text-charcoal placeholder-muted focus:outline-none focus:ring-1 focus:ring-plum focus:border-plum transition-all;
+  @apply w-full px-3.5 py-2.5 bg-white border border-border rounded-xl text-xs text-charcoal placeholder-[#9E9B9F] focus:outline-none focus:ring-2 focus:ring-plum/20 focus:border-plum transition-all shadow-xs;
 }
 
 .brutalist-badge {
-  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold tracking-wide uppercase;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase;
 }
-

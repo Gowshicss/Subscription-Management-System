@@ -101,9 +101,9 @@ export const QuotationsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            QUOTATIONS & PROPOSALS
+            Quotations & Proposals
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Draft customized commercial offers with dynamic variant pricing, discounts, and dispatch for customer approval
           </p>
         </div>
@@ -117,7 +117,7 @@ export const QuotationsPage: React.FC = () => {
       </div>
 
       {/* Table */}
-      <div className="brutalist-card bg-white border border-border overflow-hidden">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full brutalist-table">
             <thead>
@@ -196,7 +196,7 @@ export const QuotationsPage: React.FC = () => {
       {/* Create Quotation Modal */}
       {isCreateOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 overflow-y-auto">
-          <div className="brutalist-card bg-white w-full max-w-2xl border border-border my-8">
+          <div className="bg-white rounded-2xl border border-border shadow-xl w-full max-w-2xl my-8 overflow-hidden">
             <div className="p-4 border-b border-border flex items-center justify-between">
               <h3 className="text-sm font-bold text-charcoal uppercase tracking-wider">
                 Create Commercial Quotation

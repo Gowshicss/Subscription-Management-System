@@ -82,9 +82,9 @@ export const ProductsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            PRODUCT & VARIANT CATALOG
+            Product & Variant Catalog
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Manage software offerings, subscription add-ons, cost baselines, and multi-tier pricing variants
           </p>
         </div>
@@ -105,7 +105,7 @@ export const ProductsPage: React.FC = () => {
           (products || []).map((product) => (
             <div
               key={product.id}
-              className={`brutalist-card p-5 bg-white border ${
+              className={`bg-white rounded-2xl border p-5 shadow-xs ${
                 product.isArchived ? 'border-dashed border-gray-300 opacity-75' : 'border-border'
               }`}
             >
@@ -113,11 +113,11 @@ export const ProductsPage: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-sm font-bold text-charcoal">{product.name}</h3>
-                    <span className="brutalist-badge bg-surface-secondary text-plum border border-border">
+                    <span className="rounded-full text-[10px] font-bold px-2.5 py-0.5 bg-[#FAF9F7] text-plum border border-border">
                       {product.type}
                     </span>
                     {product.isArchived && (
-                      <span className="brutalist-badge bg-gray-200 text-gray-700">Archived</span>
+                      <span className="rounded-full text-[10px] font-bold px-2.5 py-0.5 bg-gray-100 text-gray-700">Archived</span>
                     )}
                   </div>
                   <span className="text-xs font-mono font-semibold text-muted block mt-0.5">
@@ -143,13 +143,13 @@ export const ProductsPage: React.FC = () => {
               <div className="mt-4 pt-3 border-t border-border">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-bold text-charcoal uppercase tracking-wider flex items-center gap-1.5">
-                    <Layers className="w-3.5 h-3.5 text-teal-accent" />
+                    <Layers className="w-3.5 h-3.5 text-plum" />
                     Configurable Variants ({product.variants?.length || 0})
                   </span>
                   {!product.isArchived && (
                     <button
                       onClick={() => setSelectedProductForVariant(product)}
-                      className="text-xs font-bold text-teal-accent hover:underline flex items-center gap-1"
+                      className="text-xs font-bold text-plum hover:underline flex items-center gap-1"
                     >
                       <Plus className="w-3 h-3" /> Add Variant
                     </button>
@@ -160,7 +160,7 @@ export const ProductsPage: React.FC = () => {
                   {(product.variants || []).map((v) => (
                     <div
                       key={v.id}
-                      className="p-2 bg-surface-secondary border border-border rounded flex items-center justify-between text-xs"
+                      className="p-2.5 bg-[#FAF9F7] border border-border rounded-xl flex items-center justify-between text-xs"
                     >
                       <div className="truncate mr-2">
                         <span className="font-semibold text-charcoal">{v.name}</span>
@@ -170,7 +170,7 @@ export const ProductsPage: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      <span className="font-mono font-bold text-teal-dark shrink-0">
+                      <span className="font-mono font-bold text-emerald-700 shrink-0">
                         {Number(v.additionalPrice) > 0
                           ? `+₹${Number(v.additionalPrice).toFixed(2)}`
                           : 'Included (₹0.00)'}

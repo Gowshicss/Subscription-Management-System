@@ -94,23 +94,23 @@ export const InvoicesPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            INVOICES & FINANCIAL LEDGER
+            Invoices & Financial Ledger
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Generated billing cycles, payment allocations, outstanding balances, and official PDF statements
           </p>
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 self-start sm:self-auto bg-white p-1 border border-border rounded text-xs">
+        <div className="flex items-center gap-1 self-start sm:self-auto bg-white p-1.5 border border-border rounded-2xl shadow-xs text-xs">
           {['', 'CONFIRMED', 'PAID', 'DRAFT', 'CANCELLED'].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-2.5 py-1 rounded font-semibold transition-colors ${
+              className={`px-3 py-1.5 rounded-xl font-medium text-xs transition-colors ${
                 statusFilter === st
-                  ? 'bg-plum text-white'
-                  : 'text-muted hover:text-charcoal hover:bg-surface-secondary'
+                  ? 'bg-plum text-white shadow-xs'
+                  : 'text-muted hover:text-charcoal hover:bg-[#FAF9F7]'
               }`}
             >
               {st || 'All Invoices'}
@@ -120,7 +120,7 @@ export const InvoicesPage: React.FC = () => {
       </div>
 
       {/* Invoices Table */}
-      <div className="brutalist-card bg-white border border-border overflow-hidden">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full brutalist-table">
             <thead>
@@ -151,7 +151,7 @@ export const InvoicesPage: React.FC = () => {
                 </tr>
               ) : (
                 (invoices || []).map((inv) => (
-                  <tr key={inv.id} className="hover:bg-surface-secondary transition-colors">
+                  <tr key={inv.id} className="hover:bg-[#FAF9F7] transition-colors">
                     <td className="font-mono font-bold text-xs text-plum">{inv.invoiceNumber}</td>
                     <td className="text-xs font-semibold text-charcoal">{inv.customer?.companyName}</td>
                     <td className="text-xs text-muted font-mono">
@@ -163,7 +163,7 @@ export const InvoicesPage: React.FC = () => {
                         {new Date(inv.dueDate).toLocaleDateString()}
                       </span>
                       {inv.isOverdue && (
-                        <span className="brutalist-badge bg-red-100 text-red-800 ml-1.5 text-[9px]">
+                        <span className="bg-red-50 text-red-700 border border-red-200 px-2 py-0.5 rounded-full ml-1.5 text-[9px] font-bold">
                           Overdue
                         </span>
                       )}
@@ -187,7 +187,7 @@ export const InvoicesPage: React.FC = () => {
                         className="brutalist-btn-secondary text-xs py-1 px-2"
                         title="Download PDF Invoice"
                       >
-                        <Download className="w-3.5 h-3.5 text-teal-dark" />
+                        <Download className="w-3.5 h-3.5 text-plum" />
                       </button>
 
                       {/* Confirm Draft */}
@@ -223,7 +223,7 @@ export const InvoicesPage: React.FC = () => {
       {/* Record Payment Dialog */}
       {paymentModalInvoice && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="brutalist-card bg-white w-full max-w-md border border-border">
+          <div className="bg-white rounded-2xl border border-border shadow-xl w-full max-w-md overflow-hidden">
             <div className="p-4 border-b border-border flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-charcoal uppercase tracking-wider">
@@ -235,7 +235,7 @@ export const InvoicesPage: React.FC = () => {
               </div>
               <button
                 onClick={() => setPaymentModalInvoice(null)}
-                className="p-1 rounded text-muted hover:text-charcoal"
+                className="p-1 rounded-lg text-muted hover:text-charcoal hover:bg-[#FAF9F7]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -243,13 +243,13 @@ export const InvoicesPage: React.FC = () => {
 
             <form onSubmit={handleRecordPayment} className="p-5 space-y-4">
               {paymentError && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded">
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
                   {paymentError}
                 </div>
               )}
 
               {/* Balance Summary Header */}
-              <div className="p-3 bg-surface-secondary border border-border rounded flex justify-between text-xs">
+              <div className="p-3 bg-[#FAF9F7] border border-border rounded-xl flex justify-between text-xs">
                 <div>
                   <span className="text-muted block text-[10px] uppercase font-bold">
                     Invoice Total:

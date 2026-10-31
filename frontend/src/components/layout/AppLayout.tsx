@@ -20,7 +20,6 @@ import {
   ChevronRight,
   Zap,
   CheckCircle2,
-  AlertCircle,
   ShoppingBag,
 } from 'lucide-react';
 
@@ -32,8 +31,8 @@ export const AppLayout: React.FC = () => {
   const [isBillingRunning, setIsBillingRunning] = useState(false);
   const [billingToast, setBillingToast] = useState<string | null>(null);
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    logout();
     navigate('/login');
   };
 
@@ -54,7 +53,6 @@ export const AppLayout: React.FC = () => {
     }
   };
 
-  // Nav configurations based on role
   const adminNav = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Customers', path: '/customers', icon: Users },
@@ -90,41 +88,44 @@ export const AppLayout: React.FC = () => {
   ];
 
   const navItems = role === 'ADMIN' ? adminNav : role === 'STAFF' ? staffNav : customerNav;
+  const currentNav = navItems.find((n) => location.pathname === n.path || (n.path !== '/dashboard' && n.path !== '/portal' && location.pathname.startsWith(n.path)));
 
   return (
-    <div className="flex h-screen bg-[#F8F8F9] overflow-hidden">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-[#FAF9F6] text-charcoal overflow-hidden font-sans">
+      {/* Clean White Sidebar (Reference Style) */}
       <aside
         className={`${
           collapsed ? 'w-20' : 'w-64'
-        } flex flex-col bg-plum text-white border-r border-[#3D2339] transition-all duration-200 z-30 select-none`}
+        } flex flex-col bg-white border-r border-border transition-all duration-200 z-30 select-none shadow-xs`}
       >
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-[#3D2339]">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-border">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-8 h-8 rounded bg-teal-accent flex items-center justify-center font-bold text-white shrink-0 text-lg shadow-sm">
+            <div className="w-9 h-9 rounded-xl bg-plum flex items-center justify-center font-bold text-white shrink-0 text-base shadow-xs">
               B
             </div>
             {!collapsed && (
-              <div className="flex flex-col">
-                <span className="font-bold text-sm tracking-wide text-white uppercase">Brightloop</span>
-                <span className="text-[10px] text-teal-soft uppercase tracking-wider font-semibold">
-                  {role} Portal
+              <div className="flex flex-col truncate">
+                <span className="font-bold text-sm tracking-tight text-charcoal">
+                  Brightloop
+                </span>
+                <span className="text-[10px] text-muted font-medium truncate">
+                  {role === 'CUSTOMER' ? 'Customer Self-Service' : 'Enterprise Subscription'}
                 </span>
               </div>
             )}
           </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 rounded text-purple-light hover:text-white hover:bg-plum-light transition-colors"
+            className="p-1.5 rounded-lg text-muted hover:text-charcoal hover:bg-[#F4F3F1] transition-colors"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
         </div>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-1">
+        {/* Navigation Items (Reference Pill Buttons) */}
+        <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive =
@@ -135,33 +136,42 @@ export const AppLayout: React.FC = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded text-xs font-semibold tracking-wide transition-colors ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
                   isActive
-                    ? 'bg-plum-light text-white border-l-2 border-teal-accent'
-                    : 'text-[#D7C9D5] hover:bg-[#3E233B] hover:text-white'
+                    ? 'bg-plum text-white shadow-xs'
+                    : 'text-[#525055] hover:bg-[#F4F3F1] hover:text-charcoal'
                 }`}
                 title={collapsed ? item.label : undefined}
               >
-                <Icon className="w-4 h-4 shrink-0 text-teal-soft" />
+                <Icon
+                  className={`w-4 h-4 shrink-0 ${
+                    isActive ? 'text-white' : 'text-[#737078]'
+                  }`}
+                />
                 {!collapsed && <span className="truncate">{item.label}</span>}
               </Link>
             );
           })}
         </nav>
 
-        {/* Sidebar Footer */}
-        <div className="p-3 border-t border-[#3D2339] bg-[#3B2237]">
+        {/* Sidebar Footer (Clean User Card) */}
+        <div className="p-3 border-t border-border bg-white">
           {!collapsed ? (
-            <div className="flex items-center justify-between">
-              <div className="truncate mr-2">
-                <p className="text-xs font-semibold text-white truncate">
-                  {user?.firstName} {user?.lastName}
-                </p>
-                <p className="text-[10px] text-teal-soft truncate">{user?.email}</p>
+            <div className="p-2.5 rounded-xl bg-[#FAF9F7] border border-border flex items-center justify-between">
+              <div className="flex items-center gap-2.5 overflow-hidden mr-2">
+                <div className="w-8 h-8 rounded-full bg-[#EFE7EC] text-plum font-bold text-xs flex items-center justify-center shrink-0">
+                  {user?.firstName?.[0] || 'U'}
+                </div>
+                <div className="truncate">
+                  <p className="text-xs font-bold text-charcoal truncate">
+                    {user?.firstName} {user?.lastName}
+                  </p>
+                  <p className="text-[10px] text-muted truncate">{user?.email}</p>
+                </div>
               </div>
               <button
                 onClick={handleLogout}
-                className="p-1.5 rounded hover:bg-[#4B2D47] text-[#D7C9D5] hover:text-white transition-colors"
+                className="p-1.5 rounded-lg text-muted hover:text-red-600 hover:bg-white transition-colors shrink-0"
                 title="Log out"
               >
                 <LogOut className="w-4 h-4" />
@@ -170,7 +180,7 @@ export const AppLayout: React.FC = () => {
           ) : (
             <button
               onClick={handleLogout}
-              className="w-full flex justify-center p-2 rounded hover:bg-[#4B2D47] text-[#D7C9D5] hover:text-white transition-colors"
+              className="w-full flex justify-center p-2 rounded-xl hover:bg-[#F4F3F1] text-muted hover:text-red-600 transition-colors"
               title="Log out"
             >
               <LogOut className="w-4 h-4" />
@@ -180,54 +190,75 @@ export const AppLayout: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Header */}
-        <header className="h-16 bg-white border-b border-border flex items-center justify-between px-6 z-20">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-muted">
-              {role === 'CUSTOMER' ? 'Customer Portal' : 'Enterprise Workspace'}
-            </span>
-            <span className="text-muted">/</span>
-            <span className="text-sm font-semibold text-charcoal">
-              {navItems.find((n) => location.pathname.startsWith(n.path))?.label || 'Subscription System'}
+      <div className="flex-1 flex flex-col overflow-hidden bg-[#FAF9F6]">
+        {/* Top Header (Clean Reference Bar) */}
+        <header className="h-16 bg-white border-b border-border flex items-center justify-between px-6 z-20 shadow-xs">
+          {/* Breadcrumbs */}
+          <div className="flex items-center gap-2 text-xs font-medium text-muted">
+            <span className="text-muted/80">Home</span>
+            <span>/</span>
+            <span className="font-semibold text-charcoal">
+              {currentNav?.label || 'Overview'}
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* Status Pill Badge */}
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-[11px] font-semibold">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Live: INR (₹)</span>
+            </div>
+
             {/* Admin Manual Billing Trigger Button */}
             {role === 'ADMIN' && (
               <button
                 onClick={handleTriggerBilling}
                 disabled={isBillingRunning}
-                className="brutalist-btn-primary bg-plum hover:bg-plum-light text-xs py-1.5 px-3"
-                title="Manually execute recurring billing cycle"
+                className="bg-plum hover:bg-plum-light text-white text-xs font-semibold py-1.5 px-3.5 rounded-xl shadow-xs inline-flex items-center gap-1.5 transition-all active:scale-[0.98]"
+                title="Execute recurring billing cycle"
               >
-                <Zap className={`w-3.5 h-3.5 text-teal-accent ${isBillingRunning ? 'animate-spin' : ''}`} />
-                {isBillingRunning ? 'Processing Billing...' : 'Run Billing Engine'}
+                <Zap className={`w-3.5 h-3.5 text-teal-soft ${isBillingRunning ? 'animate-spin' : ''}`} />
+                {isBillingRunning ? 'Processing...' : 'Run Billing Engine'}
               </button>
             )}
 
-            {/* Role indicator badge */}
-            <span className="brutalist-badge bg-surface-secondary text-plum border border-border">
-              {role}
-            </span>
-
-            <div className="w-7 h-7 rounded bg-plum text-white font-bold text-xs flex items-center justify-center">
-              {user?.firstName?.[0] || 'U'}
+            {/* User Profile Pill */}
+            <div className="flex items-center gap-2 pl-2 border-l border-border">
+              <div className="text-right hidden sm:block">
+                <span className="text-xs font-bold text-charcoal block leading-tight">
+                  {user?.firstName} {user?.lastName}
+                </span>
+                <span className="text-[10px] uppercase font-bold text-muted tracking-wider block">
+                  {role}
+                </span>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-plum text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                {user?.firstName?.[0] || 'U'}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="p-1.5 rounded-full border border-border text-muted hover:text-red-600 hover:bg-red-50 transition-colors ml-1"
+                title="Log out"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
         </header>
 
-        {/* Global Toast Alert if billing cycle triggered */}
+        {/* Floating Toast Notification (Reference Style in Bottom Right) */}
         {billingToast && (
-          <div className="bg-plum text-white px-6 py-2.5 flex items-center justify-between text-xs font-semibold shadow-md border-b border-plum-light animate-fadeIn">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-accent" />
-              <span>{billingToast}</span>
+          <div className="fixed bottom-6 right-6 bg-white border border-border rounded-2xl shadow-xl p-4 flex items-center gap-3 z-50 animate-bounce-short max-w-md">
+            <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
+            <div className="flex-1 text-xs">
+              <span className="font-bold text-charcoal block">Billing Cycle Executed</span>
+              <span className="text-muted block text-[11px] mt-0.5">{billingToast}</span>
             </div>
             <button
               onClick={() => setBillingToast(null)}
-              className="text-teal-soft hover:text-white text-sm ml-4"
+              className="text-muted hover:text-charcoal text-xs p-1 rounded-md"
             >
               ✕
             </button>
@@ -242,4 +273,3 @@ export const AppLayout: React.FC = () => {
     </div>
   );
 };
-

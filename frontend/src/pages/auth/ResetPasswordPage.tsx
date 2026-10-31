@@ -49,18 +49,24 @@ export const ResetPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F9] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FAF9F6] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div className="inline-flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-xl bg-plum flex items-center justify-center text-white font-extrabold text-sm shadow-xs">
+            B
+          </div>
+          <span className="text-sm font-bold tracking-tight text-charcoal">BRIGHTLOOP</span>
+        </div>
         <h2 className="text-2xl font-bold tracking-tight text-charcoal">
           Create New Password
         </h2>
         <p className="mt-1 text-xs text-muted">
-          Your new password must satisfy corporate security standards.
+          Your new password must satisfy security standards.
         </p>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="brutalist-card bg-white py-8 px-6 sm:px-10 border border-border">
+        <div className="bg-white rounded-2xl border border-border shadow-xs py-8 px-6 sm:px-10">
           {success ? (
             <div className="text-center space-y-4">
               <h3 className="text-base font-bold text-emerald-700">Password Updated!</h3>
@@ -74,7 +80,7 @@ export const ResetPasswordPage: React.FC = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded">
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
                   {error}
                 </div>
               )}
@@ -113,7 +119,7 @@ export const ResetPasswordPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 bg-surface-secondary border border-border rounded text-[11px] space-y-1">
+              <div className="p-3.5 bg-[#FAF9F7] border border-border rounded-xl text-[11px] space-y-1.5">
                 <div className="flex items-center gap-2">
                   {hasLength ? <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> : <X className="w-3.5 h-3.5 text-muted shrink-0" />}
                   <span className={hasLength ? 'text-emerald-700 font-medium' : 'text-muted'}>

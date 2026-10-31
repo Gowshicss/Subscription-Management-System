@@ -29,18 +29,24 @@ export const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F9] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-2xl font-bold tracking-tight text-charcoal">
+    <div className="min-h-screen bg-[#FAF9F6] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div className="inline-flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-xl bg-plum flex items-center justify-center text-white font-extrabold text-sm shadow-xs">
+            B
+          </div>
+          <span className="text-sm font-bold tracking-tight text-charcoal">BRIGHTLOOP</span>
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-charcoal">
           Reset Your Password
         </h2>
-        <p className="mt-1 text-center text-xs text-muted">
+        <p className="mt-1 text-xs text-muted">
           Enter your registered email to receive a secure reset link.
         </p>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="brutalist-card bg-white py-8 px-6 sm:px-10 border border-border">
+        <div className="bg-white rounded-2xl border border-border shadow-xs py-8 px-6 sm:px-10">
           {submitted ? (
             <div className="text-center space-y-4">
               <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
@@ -50,13 +56,13 @@ export const ForgotPasswordPage: React.FC = () => {
               </p>
 
               {debugToken && (
-                <div className="p-3 bg-surface-secondary border border-border rounded text-left">
+                <div className="p-3 bg-[#FAF9F7] border border-border rounded-xl text-left">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-plum block mb-1">
                     Development Quick Link:
                   </span>
                   <Link
                     to={`/reset-password?token=${debugToken}`}
-                    className="text-xs text-teal-accent font-semibold hover:underline break-all"
+                    className="text-xs text-plum font-semibold hover:underline break-all"
                   >
                     Click to proceed with token: {debugToken.slice(0, 16)}...
                   </Link>
@@ -72,7 +78,7 @@ export const ForgotPasswordPage: React.FC = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded">
+                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
                   {error}
                 </div>
               )}

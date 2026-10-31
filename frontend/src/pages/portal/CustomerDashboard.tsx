@@ -26,9 +26,9 @@ export const CustomerDashboard: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-charcoal">
-            CUSTOMER SELF-SERVICE PORTAL
+            Customer Self-Service Portal
           </h1>
-          <p className="text-xs text-muted font-medium">
+          <p className="text-xs text-muted font-medium mt-0.5">
             Manage your software subscriptions, approve quotation proposals, and review invoices
           </p>
         </div>
@@ -75,7 +75,7 @@ export const CustomerDashboard: React.FC = () => {
       </div>
 
       {/* Active Subscriptions Overview */}
-      <div className="brutalist-card bg-white border border-border overflow-hidden">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
         <div className="p-4 border-b border-border flex items-center justify-between">
           <h2 className="text-xs font-bold text-charcoal uppercase tracking-wider">
             Your Active Subscriptions
@@ -83,7 +83,7 @@ export const CustomerDashboard: React.FC = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/portal/explore"
-              className="text-xs font-bold text-teal-dark hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-plum hover:underline flex items-center gap-1"
             >
               <Plus className="w-3.5 h-3.5" /> Get Another Application
             </Link>
@@ -133,12 +133,12 @@ export const CustomerDashboard: React.FC = () => {
       {/* Two Column: Pending Quotations & Recent Invoices */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pending Quotations */}
-        <div className="brutalist-card bg-white border border-border overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
           <div className="p-4 border-b border-border flex items-center justify-between">
             <h2 className="text-xs font-bold text-charcoal uppercase tracking-wider">
               Pending Offers & Quotations
             </h2>
-            <Link to="/portal/quotations" className="text-xs text-teal-accent hover:underline font-semibold flex items-center gap-1">
+            <Link to="/portal/quotations" className="text-xs text-plum hover:underline font-semibold flex items-center gap-1">
               View All <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -146,7 +146,7 @@ export const CustomerDashboard: React.FC = () => {
             {quotes.map((q: any) => (
               <div
                 key={q.id}
-                className="p-3 border border-border rounded flex items-center justify-between hover:bg-surface-secondary transition-colors"
+                className="p-3 border border-border rounded-xl flex items-center justify-between hover:bg-[#FAF9F7] transition-colors"
               >
                 <div>
                   <span className="font-mono text-xs font-bold text-plum block">{q.quotationNumber}</span>
@@ -177,12 +177,12 @@ export const CustomerDashboard: React.FC = () => {
         </div>
 
         {/* Recent Invoices */}
-        <div className="brutalist-card bg-white border border-border overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
           <div className="p-4 border-b border-border flex items-center justify-between">
             <h2 className="text-xs font-bold text-charcoal uppercase tracking-wider">
               Recent Invoices
             </h2>
-            <Link to="/portal/invoices" className="text-xs text-teal-accent hover:underline font-semibold flex items-center gap-1">
+            <Link to="/portal/invoices" className="text-xs text-plum hover:underline font-semibold flex items-center gap-1">
               View All <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -190,7 +190,7 @@ export const CustomerDashboard: React.FC = () => {
             {invoices.map((inv: any) => (
               <div
                 key={inv.id}
-                className="p-3 border border-border rounded flex items-center justify-between hover:bg-surface-secondary transition-colors"
+                className="p-3 border border-border rounded-xl flex items-center justify-between hover:bg-[#FAF9F7] transition-colors"
               >
                 <div>
                   <span className="font-mono text-xs font-bold text-charcoal block">{inv.invoiceNumber}</span>

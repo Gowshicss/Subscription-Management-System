@@ -53,9 +53,9 @@ export const CustomersPage: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-charcoal">CUSTOMER MANAGEMENT</h1>
-          <p className="text-xs text-muted font-medium">
-            Directory of enterprise clients, subscribers, billing addresses and financial summaries
+          <h1 className="text-xl font-bold tracking-tight text-charcoal">Customer Directory</h1>
+          <p className="text-xs text-muted font-medium mt-0.5">
+            Central operational hub for client master data, contracts, billing profiles, and receivables
           </p>
         </div>
 
@@ -63,31 +63,31 @@ export const CustomersPage: React.FC = () => {
           onClick={() => setIsCreateOpen(true)}
           className="brutalist-btn-primary self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4" /> Add Customer
+          <Plus className="w-4 h-4" /> New Customer
         </button>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="brutalist-card p-3 bg-white flex items-center gap-3">
+      <div className="bg-white rounded-2xl border border-border p-3 shadow-xs flex items-center gap-3">
         <div className="relative flex-1">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by company, contact name or email..."
-            className="brutalist-input pl-9"
+            className="w-full bg-[#FAF9F7] border border-border rounded-xl pl-9 pr-4 py-2 text-xs text-charcoal placeholder-muted focus:outline-none focus:border-plum"
           />
           <Search className="w-4 h-4 text-muted absolute left-3 top-2.5" />
         </div>
       </div>
 
       {/* Customers Data Table */}
-      <div className="brutalist-card bg-white border border-border overflow-hidden">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full brutalist-table">
             <thead>
               <tr>
-                <th>Company Name</th>
+                <th>Customer / Company</th>
                 <th>Contact</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -111,8 +111,15 @@ export const CustomersPage: React.FC = () => {
                 </tr>
               ) : (
                 (data || []).map((customer) => (
-                  <tr key={customer.id} className="hover:bg-surface-secondary transition-colors">
-                    <td className="font-bold text-xs text-plum">{customer.companyName}</td>
+                  <tr key={customer.id} className="hover:bg-[#FAF9F7] transition-colors">
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-[#FAF9F7] text-plum border border-border flex items-center justify-center font-bold text-xs uppercase shrink-0">
+                          {customer.companyName.slice(0, 2)}
+                        </div>
+                        <span className="font-bold text-xs text-plum">{customer.companyName}</span>
+                      </div>
+                    </td>
                     <td className="text-xs">{customer.contactName}</td>
                     <td className="text-xs text-muted">{customer.email}</td>
                     <td className="text-xs text-muted">{customer.phone}</td>
@@ -141,7 +148,7 @@ export const CustomersPage: React.FC = () => {
       {/* Customer 360 Detail Modal */}
       {selectedCustomer && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="brutalist-card bg-white w-full max-w-2xl border border-border max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-2xl border border-border shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
             <div className="p-4 border-b border-border flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-charcoal uppercase tracking-wider">
@@ -151,7 +158,7 @@ export const CustomersPage: React.FC = () => {
               </div>
               <button
                 onClick={() => setSelectedCustomer(null)}
-                className="p-1 rounded text-muted hover:text-charcoal"
+                className="p-1 rounded-lg text-muted hover:text-charcoal hover:bg-[#FAF9F7]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -184,7 +191,7 @@ export const CustomersPage: React.FC = () => {
               </div>
 
               {/* Financial Snapshot */}
-              <div className="p-4 bg-surface-secondary border border-border rounded grid grid-cols-3 gap-3 text-center">
+              <div className="p-4 bg-[#FAF9F7] border border-border rounded-xl grid grid-cols-3 gap-3 text-center">
                 <div>
                   <span className="text-[10px] font-bold text-muted uppercase">Total Invoiced</span>
                   <span className="text-sm font-bold text-charcoal block">
@@ -221,14 +228,14 @@ export const CustomersPage: React.FC = () => {
       {/* Create Customer Dialog */}
       {isCreateOpen && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="brutalist-card bg-white w-full max-w-lg border border-border">
+          <div className="bg-white rounded-2xl border border-border shadow-xl w-full max-w-lg overflow-hidden">
             <div className="p-4 border-b border-border flex items-center justify-between">
               <h3 className="text-sm font-bold text-charcoal uppercase tracking-wider">
                 Create New Customer
               </h3>
               <button
                 onClick={() => setIsCreateOpen(false)}
-                className="p-1 rounded text-muted hover:text-charcoal"
+                className="p-1 rounded-lg text-muted hover:text-charcoal hover:bg-[#FAF9F7]"
               >
                 <X className="w-4 h-4" />
               </button>
