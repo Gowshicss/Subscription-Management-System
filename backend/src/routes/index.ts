@@ -96,6 +96,7 @@ router.post('/quotations/:id/accept', QuotationController.accept); // Customer p
 // ==========================================
 router.get('/subscriptions', SubscriptionController.list);
 router.post('/subscriptions', requireRole(Role.ADMIN, Role.STAFF), SubscriptionController.create);
+router.post('/portal/subscribe', SubscriptionController.customerSelfSubscribe);
 router.get('/subscriptions/:id', SubscriptionController.getById);
 router.post('/subscriptions/:id/confirm', requireRole(Role.ADMIN, Role.STAFF), SubscriptionController.confirm);
 router.post('/subscriptions/:id/activate', requireRole(Role.ADMIN, Role.STAFF), SubscriptionController.activate);

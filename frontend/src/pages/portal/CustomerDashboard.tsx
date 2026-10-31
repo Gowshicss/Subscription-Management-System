@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import { MetricCard } from '../../components/ui/MetricCard';
 import { StatusBadge } from '../../components/ui/StatusBadge';
-import { Repeat, Receipt, FileText, ArrowRight, Calendar, CreditCard } from 'lucide-react';
+import { Repeat, Receipt, FileText, ArrowRight, Calendar, CreditCard, ShoppingBag, Plus } from 'lucide-react';
 
 export const CustomerDashboard: React.FC = () => {
   const { data, isLoading } = useQuery({
@@ -23,13 +23,21 @@ export const CustomerDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-charcoal">
-          CUSTOMER SELF-SERVICE PORTAL
-        </h1>
-        <p className="text-xs text-muted font-medium">
-          Manage your software subscriptions, approve quotation proposals, and review invoices
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-charcoal">
+            CUSTOMER SELF-SERVICE PORTAL
+          </h1>
+          <p className="text-xs text-muted font-medium">
+            Manage your software subscriptions, approve quotation proposals, and review invoices
+          </p>
+        </div>
+        <Link
+          to="/portal/explore"
+          className="brutalist-btn-primary text-xs py-2 px-3.5 flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
+        >
+          <ShoppingBag className="w-4 h-4 text-teal-soft" /> Explore & Buy Applications
+        </Link>
       </div>
 
       {/* Metrics Grid */}
@@ -72,9 +80,18 @@ export const CustomerDashboard: React.FC = () => {
           <h2 className="text-xs font-bold text-charcoal uppercase tracking-wider">
             Your Active Subscriptions
           </h2>
-          <Link to="/portal/subscriptions" className="text-xs text-teal-accent hover:underline font-semibold flex items-center gap-1">
-            View All <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/portal/explore"
+              className="text-xs font-bold text-teal-dark hover:underline flex items-center gap-1"
+            >
+              <Plus className="w-3.5 h-3.5" /> Get Another Application
+            </Link>
+            <span className="text-border">|</span>
+            <Link to="/portal/subscriptions" className="text-xs text-muted hover:underline font-semibold flex items-center gap-1">
+              View All <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full brutalist-table">

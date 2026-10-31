@@ -21,6 +21,7 @@ import {
   Zap,
   CheckCircle2,
   AlertCircle,
+  ShoppingBag,
 } from 'lucide-react';
 
 export const AppLayout: React.FC = () => {
@@ -80,6 +81,7 @@ export const AppLayout: React.FC = () => {
 
   const customerNav = [
     { label: 'Portal Overview', path: '/portal', icon: LayoutDashboard },
+    { label: 'Explore & Subscribe', path: '/portal/explore', icon: ShoppingBag },
     { label: 'My Quotations', path: '/portal/quotations', icon: FileText },
     { label: 'My Subscriptions', path: '/portal/subscriptions', icon: Repeat },
     { label: 'My Invoices', path: '/portal/invoices', icon: Receipt },

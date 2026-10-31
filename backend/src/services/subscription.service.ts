@@ -352,6 +352,139 @@ class SubscriptionService {
 
     return updated;
   }
+
+  /**
+   * Self-service subscription activation by customers from the catalog
+   */
+  async createCustomerSubscription(
+    customerId: string,
+    input: {
+      planId: string;
+      items: Array<{ productId: string; variantId?: string; quantity?: number }>;
+      paymentTerms?: string;
+    },
+    userId?: string
+  ) {
+    const plan = await prisma.subscriptionPlan.findUnique({ where: { id: input.planId } });
+    if (!plan) {
+      const err: any = new Error('Selected subscription plan not found.');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    const startDate = new Date();
+    const nextBillingDate = new Date();
+    switch (plan.billingFrequency) {
+      case BillingFrequency.DAILY:
+        nextBillingDate.setDate(nextBillingDate.getDate() + 1);
+        break;
+      case BillingFrequency.WEEKLY:
+        nextBillingDate.setDate(nextBillingDate.getDate() + 7);
+        break;
+      case BillingFrequency.MONTHLY:
+        nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
+        break;
+      case BillingFrequency.QUARTERLY:
+        nextBillingDate.setMonth(nextBillingDate.getMonth() + 3);
+        break;
+      case BillingFrequency.YEARLY:
+        nextBillingDate.setFullYear(nextBillingDate.getFullYear() + 1);
+        break;
+      default:
+        nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
+    }
+
+    let subtotal = 0;
+    let taxAmount = 0;
+    const processedItems: any[] = [];
+
+    for (const item of input.items || []) {
+      const product = await prisma.product.findUnique({
+        where: { id: item.productId },
+        include: { variants: true },
+      });
+      if (!product) continue;
+
+      let unitPrice = Number(product.salesPrice);
+      if (item.variantId) {
+        const variant = product.variants.find((v) => v.id === item.variantId);
+        if (variant) {
+          unitPrice += Number(variant.additionalPrice);
+        }
+      }
+
+      const qty = item.quantity && item.quantity > 0 ? item.quantity : 1;
+      const lineAmount = unitPrice * qty;
+      const taxRate = 10.0;
+      const tax = (lineAmount * taxRate) / 100;
+
+      subtotal += lineAmount;
+      taxAmount += tax;
+
+      processedItems.push({
+        productId: item.productId,
+        variantId: item.variantId || null,
+        quantity: qty,
+        unitPrice,
+        taxRate,
+        amount: lineAmount,
+      });
+    }
+
+    const totalAmount = subtotal + taxAmount;
+    const count = await prisma.subscription.count();
+    const subscriptionNumber = `SUB-${new Date().getFullYear()}-${String(count + 1).padStart(4, '0')}`;
+
+    const sub = await prisma.subscription.create({
+      data: {
+        subscriptionNumber,
+        customerId,
+        planId: input.planId,
+        status: SubscriptionStatus.ACTIVE,
+        startDate,
+        nextBillingDate,
+        paymentTerms: input.paymentTerms || 'Due on Receipt',
+        autoClose: plan.autoClose,
+        subtotal: new Prisma.Decimal(subtotal),
+        taxAmount: new Prisma.Decimal(taxAmount),
+        discountAmount: new Prisma.Decimal(0),
+        totalAmount: new Prisma.Decimal(totalAmount),
+        items: {
+          create: processedItems.map((item) => ({
+            productId: item.productId,
+            variantId: item.variantId,
+            quantity: item.quantity,
+            unitPrice: new Prisma.Decimal(item.unitPrice),
+            taxRate: new Prisma.Decimal(item.taxRate),
+            amount: new Prisma.Decimal(item.amount),
+          })),
+        },
+      },
+      include: {
+        plan: true,
+        items: {
+          include: {
+            product: true,
+            variant: true,
+          },
+        },
+      },
+    });
+
+    if (userId) {
+      await prisma.auditLog.create({
+        data: {
+          userId,
+          action: 'CUSTOMER_SELF_SUBSCRIBE',
+          entity: 'Subscription',
+          entityId: sub.id,
+          details: { subscriptionNumber, planId: input.planId, totalAmount },
+        },
+      });
+    }
+
+    return sub;
+  }
 }
 
 export const subscriptionService = new SubscriptionService();

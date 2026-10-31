@@ -25,6 +25,7 @@ import { SettingsPage } from '../pages/settings/SettingsPage';
 
 // Customer Portal Pages
 import { CustomerDashboard } from '../pages/portal/CustomerDashboard';
+import { ExploreProductsPage } from '../pages/portal/ExploreProductsPage';
 import { MyQuotationsPage } from '../pages/portal/MyQuotationsPage';
 import { MySubscriptionsPage } from '../pages/portal/MySubscriptionsPage';
 import { MyInvoicesPage } from '../pages/portal/MyInvoicesPage';
@@ -102,6 +103,7 @@ export const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<CustomerDashboard />} />
+        <Route path="explore" element={<ExploreProductsPage />} />
         <Route path="quotations" element={<MyQuotationsPage />} />
         <Route path="subscriptions" element={<MySubscriptionsPage />} />
         <Route path="invoices" element={<MyInvoicesPage />} />

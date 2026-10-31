@@ -112,5 +112,35 @@ export class SubscriptionController {
       next(err);
     }
   }
+
+  static async customerSelfSubscribe(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user?.customerId) {
+        return res.status(403).json({
+          success: false,
+          message: 'Only customer accounts can self-subscribe to catalog products.',
+        });
+      }
+      const { planId, items, paymentTerms } = req.body;
+      if (!planId || !items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide a valid planId and at least one product item.',
+        });
+      }
+      const sub = await subscriptionService.createCustomerSubscription(
+        req.user.customerId,
+        { planId, items, paymentTerms },
+        req.user.id
+      );
+      res.status(201).json({
+        success: true,
+        data: sub,
+        message: `Subscription ${sub.subscriptionNumber} activated successfully!`,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
