@@ -313,7 +313,7 @@ Access the application at [http://localhost:5173](http://localhost:5173).
 
 ---
 
-### Option B: Local Native Setup (Developer Mode)
+### Option B: Local Native Setup (Developer Mode):
 
 #### Step 1 — Clone the Repository
 ```bash
